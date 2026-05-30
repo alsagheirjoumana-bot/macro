@@ -1,11 +1,5 @@
-//
-//  macroApp.swift
-//  macro
-//
-//  Created by Joumana Alsagheir on 11/05/2026.
-//
-
 import SwiftUI
+import SwiftData
 
 @main
 struct macroApp: App {
@@ -13,5 +7,6 @@ struct macroApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: SavedPlace.self)
     }
 }

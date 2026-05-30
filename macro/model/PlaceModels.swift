@@ -68,6 +68,10 @@ final class SavedPlace {
     var isVisited: Bool
     var createdAt: Date
     var imageData: Data?
+    var latitude: Double?
+    var longitude: Double?
+    var address: String
+    
 
     init(
         name: String,
@@ -75,17 +79,22 @@ final class SavedPlace {
         notes: String = "",
         category: PlaceCategory = .other,
         isVisited: Bool = false,
-        imageData: Data? = nil
+        imageData: Data? = nil,
+        latitude: Double? = nil,
+        longitude: Double? = nil,
+        address: String = ""
     ) {
-
-        self.id           = UUID()
-        self.name         = name
+        self.id = UUID()
+        self.name = name
         self.neighborhood = neighborhood
-        self.notes        = notes
-        self.categoryRaw  = category.rawValue
-        self.isVisited    = isVisited
-        self.createdAt    = Date()
-        self.imageData    = imageData
+        self.notes = notes
+        self.categoryRaw = category.rawValue
+        self.isVisited = isVisited
+        self.createdAt = Date()
+        self.imageData = imageData
+        self.latitude = latitude
+        self.longitude = longitude
+        self.address = address
     }
 
     var category: PlaceCategory {
