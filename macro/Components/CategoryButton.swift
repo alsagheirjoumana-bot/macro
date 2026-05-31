@@ -1,11 +1,3 @@
-//
-//  CategoryButton.swift
-//  macro
-//
-//  Created by May Alqunaytir on 19/05/2026.
-//
-
-
 import SwiftUI
 
 struct CategoryButton: View {
@@ -13,48 +5,46 @@ struct CategoryButton: View {
     var emoji: String
     var number: Int
     var title: String
-    
-    private let cardWidth: CGFloat = 150
-    private let cardHeight: CGFloat = 50
+    var isSelected: Bool = false
+    var action: () -> Void = {}
     
     var body: some View {
         
         Button {
-            
+            action()
         } label: {
             
-            HStack(spacing: 15) {
+            HStack(spacing: 12) {
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 18)
-                        .fill(Color("AppGray"))
-                        .frame(width: 65, height: 65)
-                    
-                    Text(emoji)
-                        .font(.system(size: 35))
-                }
+                Text(emoji)
+                    .font(.title2)
+                    .frame(width: 46, height: 46)
+                    .background(Color("AppGray"))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 2) {
                     
                     Text("\(number)")
-                        .font(.title3)
+                        .font(.headline)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
                     
                     Text(title)
-                        .font(.body)
+                        .font(.caption)
                         .foregroundColor(Color("AppBrown"))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
                 }
                 
-                Spacer(minLength: 0)
+                Spacer()
             }
-            .frame(width: cardWidth, height: cardHeight)
-            .padding()
-            .background(Color.white)
-            .cornerRadius(25)
-            .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 3)
+            .padding(12)
+            .frame(height: 74)
+            .background(isSelected ? Color("OrangeBackground") : Color.white.opacity(0.95))
+            .clipShape(RoundedRectangle(cornerRadius: 22))
+            .overlay(
+                RoundedRectangle(cornerRadius: 22)
+                    .stroke(isSelected ? Color("AppOrange") : Color.clear, lineWidth: 2)
+            )
         }
+        .buttonStyle(.plain)
     }
 }
