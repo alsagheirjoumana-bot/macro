@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct ScreenshotView: View {
     @Bindable var addVM: AddPlaceViewModel
@@ -124,10 +125,13 @@ struct ScreenshotView: View {
 
     private var saveButton: some View {
         Button {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
             let imageData = ocrVM.selectedImage?
                 .jpegData(compressionQuality: 0.6)
-            addVM.save(context: modelContext, imageData: imageData)
-            dismiss()
+            
+            saveScreenshotPlace(imageData: imageData)
         } label: {
             Label("Save place", systemImage: "square.and.arrow.down")
                 .frame(maxWidth: .infinity).padding()
@@ -136,5 +140,41 @@ struct ScreenshotView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .disabled(!addVM.canSave)
+    }
+    private func saveScreenshotPlace(imageData: Data?) {
+        
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = "\(addVM.name) \(addVM.neighborhood)"
+        request.resultTypes = [.pointOfInterest, .address]
+        
+        request.region = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(
+                latitude: 24.7136,
+                longitude: 46.6753
+            ),
+            span: MKCoordinateSpan(
+                latitudeDelta: 0.15,
+                longitudeDelta: 0.15
+            )
+        )
+        
+        MKLocalSearch(request: request).start { response, _ in
+            
+            if let item = response?.mapItems.first {
+                DispatchQueue.main.async {
+                    addVM.latitude = item.placemark.coordinate.latitude
+                    addVM.longitude = item.placemark.coordinate.longitude
+                    addVM.address = item.placemark.title ?? addVM.neighborhood
+                    
+                    addVM.save(context: modelContext, imageData: imageData)
+                    dismiss()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    addVM.save(context: modelContext, imageData: imageData)
+                    dismiss()
+                }
+            }
+        }
     }
 }

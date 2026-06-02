@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     
@@ -15,6 +16,9 @@ struct ContentView: View {
 }
 
 struct MainTabView: View {
+    
+    @Query(sort: \SavedPlace.createdAt, order: .reverse)
+    private var savedPlaces: [SavedPlace]
     
     var body: some View {
         
@@ -39,6 +43,13 @@ struct MainTabView: View {
                 }
         }
         .tint(Color("AppBrown"))
+        .onAppear {
+            PlaceNotificationManager.shared.requestPermissions()
+            PlaceNotificationManager.shared.monitorPlaces(savedPlaces)
+        }
+        .onChange(of: savedPlaces.count) { _, _ in
+            PlaceNotificationManager.shared.monitorPlaces(savedPlaces)
+        }
     }
 }
 

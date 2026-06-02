@@ -4,11 +4,9 @@
 //
 //  Created by ghala alismael on 27/11/1447 AH.
 //
-
 import Foundation
 import SwiftData
 
-// Owns all form state for both tabs
 @Observable
 final class AddPlaceViewModel {
 
@@ -17,16 +15,19 @@ final class AddPlaceViewModel {
     var notes: String = ""
     var selectedCategory: PlaceCategory = .other
     var isVisited: Bool = false
+    
+    var latitude: Double?
+    var longitude: Double?
+    var address: String = ""
 
     var canSave: Bool {
         !name.trimmingCharacters(in: .whitespaces).isEmpty
     }
 
-    // Apply OCR output into form fields (only fills empty fields)
     func apply(ocrResult: OCRResult) {
-        if name.isEmpty        { name = ocrResult.detectedName }
+        if name.isEmpty { name = ocrResult.detectedName }
         if neighborhood.isEmpty { neighborhood = ocrResult.detectedNeighborhood }
-        if notes.isEmpty       { notes = ocrResult.detectedNotes }
+        if notes.isEmpty { notes = ocrResult.detectedNotes }
     }
 
     func save(context: ModelContext, imageData: Data? = nil) {
@@ -36,8 +37,12 @@ final class AddPlaceViewModel {
             notes: notes,
             category: selectedCategory,
             isVisited: isVisited,
-            imageData: imageData
+            imageData: imageData,
+            latitude: latitude,
+            longitude: longitude,
+            address: address
         )
+        
         context.insert(place)
         reset()
     }
@@ -48,5 +53,8 @@ final class AddPlaceViewModel {
         notes = ""
         selectedCategory = .other
         isVisited = false
+        latitude = nil
+        longitude = nil
+        address = ""
     }
 }

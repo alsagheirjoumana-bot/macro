@@ -185,6 +185,9 @@ struct ManualEntryView: View {
     private var saveButton: some View {
         
         Button {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
             viewModel.save(context: modelContext)
             dismiss()
         } label: {
@@ -293,6 +296,10 @@ struct ManualEntryView: View {
                 suggestion.subtitle
                 
                 viewModel.selectedCategory = guessCategory(from: item)
+                
+                viewModel.latitude = item.placemark.coordinate.latitude
+                viewModel.longitude = item.placemark.coordinate.longitude
+                viewModel.address = item.placemark.title ?? suggestion.subtitle
             }
         }
     }
