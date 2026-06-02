@@ -6,6 +6,7 @@ struct macroApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(.light)
         }
         .modelContainer(for: SavedPlace.self)
     }

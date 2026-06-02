@@ -125,11 +125,13 @@ struct ScreenshotView: View {
 
     private var saveButton: some View {
         Button {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
             let imageData = ocrVM.selectedImage?
                 .jpegData(compressionQuality: 0.6)
             
             saveScreenshotPlace(imageData: imageData)
-            
         } label: {
             Label("Save place", systemImage: "square.and.arrow.down")
                 .frame(maxWidth: .infinity).padding()

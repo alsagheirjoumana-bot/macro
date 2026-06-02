@@ -185,6 +185,9 @@ struct ManualEntryView: View {
     private var saveButton: some View {
         
         Button {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
             viewModel.save(context: modelContext)
             dismiss()
         } label: {

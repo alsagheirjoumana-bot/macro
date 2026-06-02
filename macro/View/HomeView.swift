@@ -348,6 +348,11 @@ private struct SavedPlaceCard: View {
             RoundedRectangle(cornerRadius: 30)
                 .stroke(Color("AppBrown").opacity(0.45), lineWidth: 1.2)
         )
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(
+            "\(place.name), \(place.category.rawValue), \(place.isVisited ? "visited" : "want to visit")"
+        )
+        .accessibilityHint("Double tap to open place details")
     }
     
     private func openDirections(_ place: SavedPlace) {
