@@ -13,8 +13,9 @@ struct ManualEntryView: View {
     @StateObject private var locationManager = AddPlaceLocationManager()
     @State private var searchCompleter = MKLocalSearchCompleter()
     @State private var completerDelegate = SearchCompleterDelegate()
-    @State private var suggestions: [MKLocalSearchCompletion] = []
+    @State private var suggestions: [RankedSuggestion] = []
     @State private var didChooseSuggestion = false
+    
     var body: some View {
         
         ScrollView {
@@ -43,7 +44,7 @@ struct ManualEntryView: View {
             locationManager.requestLocation()
             
             completerDelegate.onResultsUpdate = {
-                suggestions = searchCompleter.results
+                sortSuggestionsByDistance(searchCompleter.results)
             }
             
             searchCompleter.delegate = completerDelegate
@@ -67,16 +68,16 @@ struct ManualEntryView: View {
             TextField("Start typing a place name...", text: $viewModel.name)
                 .textFieldStyle(.roundedBorder)
                 .onChange(of: viewModel.name) { _, newValue in
-
+                    
                     if didChooseSuggestion {
                         didChooseSuggestion = false
                         suggestions = []
                         searchCompleter.queryFragment = ""
                         return
                     }
-
+                    
                     let trimmed = newValue.trimmingCharacters(in: .whitespaces)
-
+                    
                     if trimmed.count >= 2 {
                         updateSearchRegion()
                         searchCompleter.queryFragment = trimmed
@@ -85,62 +86,64 @@ struct ManualEntryView: View {
                     }
                 }
             
-    if !suggestions.isEmpty {
-             
-             VStack(spacing: 0) {
-                 
-                 ForEach(suggestions.prefix(5), id: \.self) { suggestion in
-                     
-                     Button {
-
-                         didChooseSuggestion = true
-                         suggestions = []
-                         searchCompleter.queryFragment = ""
-
-                         selectSuggestion(suggestion)
-
-                     } label: {
-                         
-                         HStack(spacing: 12) {
-                             
-                             Circle()
-                                 .fill(Color("AppOrange").opacity(0.18))
-                                 .frame(width: 38, height: 38)
-                                 .overlay(
-                                     Image(systemName: "mappin")
-                                         .foregroundStyle(Color("AppOrange"))
-                                 )
-                             
-                             VStack(alignment: .leading, spacing: 4) {
-                                 
-                                 Text(suggestion.title)
-                                     .font(.headline)
-                                     .foregroundColor(.primary)
-                                     .lineLimit(1)
-                                 
-                                 if !suggestion.subtitle.isEmpty {
-                                     Text(suggestion.subtitle)
-                                         .font(.caption)
-                                         .foregroundColor(.secondary)
-                                         .lineLimit(1)
-                                 }
-                             }
-                             
-                             Spacer()
-                         }
-                         .padding(.horizontal, 14)
-                         .padding(.vertical, 12)
-                     }
-                     .buttonStyle(.plain)
-                     
-                     Divider()
-                         .padding(.leading, 64)
-                 }
-             }
-             .background(Color.white.opacity(0.96))
-             .clipShape(RoundedRectangle(cornerRadius: 22))
-             .shadow(color: .black.opacity(0.10), radius: 14, x: 0, y: 6)
-         }
+            if !suggestions.isEmpty {
+                
+                VStack(spacing: 0) {
+                    
+                    ForEach(suggestions.prefix(5)) { ranked in
+                        
+                        let suggestion = ranked.completion
+                        
+                        Button {
+                            
+                            didChooseSuggestion = true
+                            suggestions = []
+                            searchCompleter.queryFragment = ""
+                            
+                            selectSuggestion(suggestion)
+                            
+                        } label: {
+                            
+                            HStack(spacing: 12) {
+                                
+                                Circle()
+                                    .fill(Color("AppOrange").opacity(0.18))
+                                    .frame(width: 38, height: 38)
+                                    .overlay(
+                                        Image(systemName: "mappin")
+                                            .foregroundStyle(Color("AppOrange"))
+                                    )
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    
+                                    Text(suggestion.title)
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                        .lineLimit(1)
+                                    
+                                    if !suggestion.subtitle.isEmpty {
+                                        Text(suggestion.subtitle)
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                            .lineLimit(1)
+                                    }
+                                }
+                                
+                                Spacer()
+                            }
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 12)
+                        }
+                        .buttonStyle(.plain)
+                        
+                        Divider()
+                            .padding(.leading, 64)
+                    }
+                }
+                .background(Color.white.opacity(0.96))
+                .clipShape(RoundedRectangle(cornerRadius: 22))
+                .shadow(color: .black.opacity(0.10), radius: 14, x: 0, y: 6)
+            }
         }
     }
     
@@ -216,6 +219,54 @@ struct ManualEntryView: View {
         )
     }
     
+    private func sortSuggestionsByDistance(_ results: [MKLocalSearchCompletion]) {
+        
+        let userCoordinate = locationManager.location ?? CLLocationCoordinate2D(
+            latitude: 24.7136,
+            longitude: 46.6753
+        )
+        
+        let userLocation = CLLocation(
+            latitude: userCoordinate.latitude,
+            longitude: userCoordinate.longitude
+        )
+        
+        var rankedSuggestions: [RankedSuggestion] = []
+        let group = DispatchGroup()
+        
+        for result in results.prefix(8) {
+            
+            group.enter()
+            
+            let request = MKLocalSearch.Request(completion: result)
+            request.region = searchCompleter.region
+            
+            let search = MKLocalSearch(request: request)
+            
+            search.start { response, _ in
+                
+                let item = response?.mapItems.first
+                let distance = item?.placemark.location?.distance(from: userLocation)
+                
+                rankedSuggestions.append(
+                    RankedSuggestion(
+                        completion: result,
+                        distance: distance
+                    )
+                )
+                
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) {
+            suggestions = rankedSuggestions.sorted {
+                ($0.distance ?? Double.greatestFiniteMagnitude) <
+                ($1.distance ?? Double.greatestFiniteMagnitude)
+            }
+        }
+    }
+    
     private func selectSuggestion(_ suggestion: MKLocalSearchCompletion) {
         
         viewModel.name = suggestion.title
@@ -267,6 +318,12 @@ struct ManualEntryView: View {
             return .other
         }
     }
+}
+
+struct RankedSuggestion: Identifiable {
+    let id = UUID()
+    let completion: MKLocalSearchCompletion
+    let distance: CLLocationDistance?
 }
 
 final class SearchCompleterDelegate: NSObject, MKLocalSearchCompleterDelegate {
