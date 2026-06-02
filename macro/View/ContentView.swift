@@ -20,22 +20,22 @@ struct MainTabView: View {
         
         TabView {
             
-            HomeView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
-                }
-            
             MapView()
                 .tabItem {
                     Image(systemName: "map.fill")
                     Text("Map")
                 }
             
-            SearchView()
+            HomeView()
                 .tabItem {
-                    Image(systemName: "magnifyingglass")
-                    Text("Search")
+                    Image(systemName: "house.fill")
+                    Text("Home")
+                }
+            
+            SpinView()
+                .tabItem {
+                    Image(systemName: "arrow.triangle.2.circlepath.circle.fill")
+                    Text("Spin")
                 }
         }
         .tint(Color("AppBrown"))
