@@ -293,6 +293,10 @@ struct ManualEntryView: View {
                 suggestion.subtitle
                 
                 viewModel.selectedCategory = guessCategory(from: item)
+                
+                viewModel.latitude = item.placemark.coordinate.latitude
+                viewModel.longitude = item.placemark.coordinate.longitude
+                viewModel.address = item.placemark.title ?? suggestion.subtitle
             }
         }
     }
