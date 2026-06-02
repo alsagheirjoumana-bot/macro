@@ -26,44 +26,61 @@ struct AddPlaceView: View {
     var body: some View {
 
         NavigationStack {
-
-            VStack(spacing: 0) {
-
-                tabBar
-
-                Divider()
-
-                switch tab {
-
-                case .manual:
-                    ManualEntryView(viewModel: addVM)
-
-                case .screenshot:
-                    ScreenshotView(
-                        addVM: addVM,
-                        ocrVM: ocrVM
-                    )
+            
+            ZStack {
+                
+                Color("BackgroundColor")
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 0) {
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        
+                        Text("Add a Place")
+                            .font(.custom("Shafarik-Regular", size: 38))
+                            .foregroundColor(.black)
+                        
+                        Text("Save a spot you want to remember")
+                            .font(.subheadline)
+                            .foregroundColor(Color("AppBrown").opacity(0.75))
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 22)
+                    .padding(.bottom, 20)
+                    
+                    tabBar
+                    
+                    Divider()
+                    
+                    switch tab {
+                        
+                    case .manual:
+                        ManualEntryView(viewModel: addVM)
+                        
+                    case .screenshot:
+                        ScreenshotView(
+                            addVM: addVM,
+                            ocrVM: ocrVM
+                        )
+                    }
                 }
-            }
-            .navigationTitle("Add a place")
-            .navigationBarTitleDisplayMode(.inline)
-
-            .toolbar {
-
+                
+            }   .toolbar {
+                
                 ToolbarItem(
                     placement: .cancellationAction
                 ) {
-
+                    
                     Button {
-
+                        
                         dismiss()
-
+                        
                     } label: {
-
+                        
                         HStack(spacing: 4) {
-
+                            
                             Image("Back")
-
+                            
                             Text("Back")
                         }
                         .foregroundStyle(.primary)
@@ -71,30 +88,42 @@ struct AddPlaceView: View {
                 }
             }
         }
-    }
+
+         
+        }
+    
+    
 
     // MARK: - Tab Bar
 
-    var tabBar: some View {
+var tabBar: some View {
 
-        HStack(spacing: 0) {
+    HStack(spacing: 10) {
 
-            tabButton(
-                "Manual Entry",
-                image: "pincel",
-                for: .manual
-            )
+        tabButton(
+            "Manual Entry",
+            image: "pincel",
+            for: .manual
+        )
 
-            tabButton(
-                "From Screenshot",
-                image: "camera",
-                for: .screenshot
-            )
-        }
-        .padding(.horizontal)
-        .padding(.top, 8)
+        tabButton(
+            "From Screenshot",
+            image: "camera",
+            for: .screenshot
+        )
     }
-
+    .padding(6)
+    .background(Color.white.opacity(0.95))
+    .clipShape(RoundedRectangle(cornerRadius: 22))
+    .shadow(
+        color: .black.opacity(0.05),
+        radius: 10,
+        x: 0,
+        y: 5
+    )
+    .padding(.horizontal, 22)
+    .padding(.bottom, 16)
+}
     // MARK: - Tab Button
 
     @ViewBuilder
@@ -141,7 +170,7 @@ struct AddPlaceView: View {
             )
 
             .clipShape(
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 16)
             )
         }
         .buttonStyle(.plain)
@@ -179,12 +208,17 @@ struct VisitedToggleRow: View {
         }
         .padding()
 
-        .background(
-            Color("OrangeBackground")
-        )
+        .background(Color.white.opacity(0.95))
 
         .clipShape(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: 24)
+        )
+
+        .shadow(
+            color: .black.opacity(0.05),
+            radius: 10,
+            x: 0,
+            y: 5
         )
     }
 }

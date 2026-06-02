@@ -16,7 +16,7 @@ struct ScreenshotView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
+            VStack(alignment: .leading, spacing: 20) {
                 imageZone
                 if ocrVM.selectedImage != nil && !ocrVM.ocrDidRun {
                     extractButton
@@ -44,7 +44,7 @@ struct ScreenshotView: View {
             ZStack(alignment: .topTrailing) {
                 Image(uiImage: image)
                     .resizable().scaledToFit()
-                    .frame(maxHeight: 220)
+                    .frame(maxHeight: 260)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 Button {
                     ocrVM.reset()
@@ -74,11 +74,16 @@ struct ScreenshotView: View {
                     .clipShape(Capsule())
             }
             .frame(maxWidth: .infinity).padding(30)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(style: StrokeStyle(lineWidth: 2, dash: [8]))
-                    .foregroundStyle(Color.secondary.opacity(0.4))
+            .background(Color.white.opacity(0.95))
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .shadow(
+                color: .black.opacity(0.05),
+                radius: 10,
+                x: 0,
+                y: 5
             )
+                   
+            
         }
         .buttonStyle(.plain)
     }
@@ -102,8 +107,12 @@ struct ScreenshotView: View {
 
     private var extractedFields: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Label("Review & edit", systemImage: "pencil")
-                .font(.subheadline).fontWeight(.semibold)
+            Text("Review & Edit")
+                .font(.headline)
+                .foregroundColor(Color("AppBrown"))
+            CategoryPickerView(
+                selected: $addVM.selectedCategory
+            )
 
             fieldRow("Place Name *", text: $addVM.name)
             fieldRow("Neighborhood", text: $addVM.neighborhood)
@@ -112,6 +121,7 @@ struct ScreenshotView: View {
                 TextField("Notes", text: $addVM.notes, axis: .vertical)
                     .lineLimit(3...5).textFieldStyle(.roundedBorder)
             }
+         
         }
     }
 
@@ -135,7 +145,11 @@ struct ScreenshotView: View {
         } label: {
             Label("Save place", systemImage: "square.and.arrow.down")
                 .frame(maxWidth: .infinity).padding()
-                .background(addVM.canSave ? Color.accentColor : .gray)
+                .background(
+                    addVM.canSave
+                    ? Color("AppOrange")
+                    : Color("AppGray")
+                )
                 .foregroundStyle(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
         }
