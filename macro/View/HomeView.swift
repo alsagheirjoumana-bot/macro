@@ -182,19 +182,15 @@ struct HomeView: View {
             } else {
                 VStack(spacing: 14) {
                     ForEach(filteredPlaces) { place in
-
-                        NavigationLink {
+                        
+                        SwipeToDeleteCard {
                             PlaceDetailView(place: place)
                         } label: {
                             SavedPlaceCard(place: place)
-                        }
-                        .buttonStyle(.plain)
-
-                        .swipeActions(edge: .trailing) {
-
-                            Button(role: .destructive) {
-
+                        } onDelete: {
+                            withAnimation {
                                 modelContext.delete(place)
+                                try? modelContext.save()
                                 WidgetCenter.shared.reloadAllTimelines()
 
                             } label: {
@@ -249,7 +245,120 @@ struct HomeView: View {
         places.filter { $0.category == category }.count
     }
 }
-
+private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
+    
+    let destination: Destination
+    let label: Label
+    let onDelete: () -> Void
+    
+    @State private var offset: CGFloat = 0
+    @State private var dragAmount: CGFloat = 0
+    @State private var shouldNavigate = false
+    @State private var showDeleteAlert = false
+    
+    init(
+        @ViewBuilder destination: () -> Destination,
+        @ViewBuilder label: () -> Label,
+        onDelete: @escaping () -> Void
+    ) {
+        self.destination = destination()
+        self.label = label()
+        self.onDelete = onDelete
+    }
+    
+    var body: some View {
+        
+        ZStack(alignment: .trailing) {
+            
+            if offset < -8 {
+                Button {
+                    showDeleteAlert = true
+                } label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: "trash.fill")
+                            .font(.headline)
+                        
+                        Text("Delete")
+                            .font(.caption2)
+                            .fontWeight(.semibold)
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: 62, height: 62)
+                    .background(Color.red)
+                    .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .padding(.trailing, 18)
+                .zIndex(1)
+            }
+            
+            label
+                .offset(x: offset)
+                .allowsHitTesting(offset == 0)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    if offset == 0 && abs(dragAmount) < 5 {
+                        shouldNavigate = true
+                    } else {
+                        withAnimation(.spring()) {
+                            offset = 0
+                        }
+                    }
+                }
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            dragAmount = value.translation.width
+                            
+                            let horizontal = abs(value.translation.width)
+                            let vertical = abs(value.translation.height)
+                            
+                            if horizontal > vertical,
+                               value.translation.width < 0 {
+                                offset = max(value.translation.width, -85)
+                            }
+                        }
+                        .onEnded { value in
+                            withAnimation(.spring()) {
+                                if value.translation.width < -45 {
+                                    offset = -85
+                                } else {
+                                    offset = 0
+                                }
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                dragAmount = 0
+                            }
+                        }
+                )
+                .background(
+                    NavigationLink(
+                        destination: destination,
+                        isActive: $shouldNavigate
+                    ) {
+                        EmptyView()
+                    }
+                    .hidden()
+                )
+        }
+        .alert("Delete Place?", isPresented: $showDeleteAlert) {
+            Button("Delete", role: .destructive) {
+                withAnimation {
+                    onDelete()
+                }
+            }
+            
+            Button("Cancel", role: .cancel) {
+                withAnimation(.spring()) {
+                    offset = 0
+                }
+            }
+        } message: {
+            Text("Are you sure you want to delete this place? This action cannot be undone.")
+        }
+    }
+}
 // MARK: - Saved Place Card
 
 private struct SavedPlaceCard: View {
