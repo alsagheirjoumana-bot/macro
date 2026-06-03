@@ -1,16 +1,35 @@
 import SwiftUI
 import SwiftData
 
+import SwiftUI
+import SwiftData
+
 struct ContentView: View {
     
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     
+    @State private var showSplash = true
+    
     var body: some View {
         
-        if hasSeenOnboarding {
-            MainTabView()
+        if showSplash {
+            
+            SplashView()
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5.2) {
+                        withAnimation {
+                            showSplash = false
+                        }
+                    }
+                }
+            
         } else {
-            OnboardingView()
+            
+            if hasSeenOnboarding {
+                MainTabView()
+            } else {
+                OnboardingView()
+            }
         }
     }
 }
