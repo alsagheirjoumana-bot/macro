@@ -186,6 +186,9 @@ struct ManualEntryView: View {
     private var saveButton: some View {
         
         Button {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
             viewModel.save(context: modelContext)
             DispatchQueue.main.asyncAfter(
                 deadline: .now() + 0.5
