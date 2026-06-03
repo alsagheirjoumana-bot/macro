@@ -78,33 +78,65 @@ func buildWidgetPlaces(
             longitude: longitude
         )
 
-        return unvisited
-            .compactMap { place in
+        let nearbyPlaces = unvisited.compactMap { place -> (SavedPlace, Double)? in
 
-                guard let lat = place.latitude,
-                      let lon = place.longitude else {
-                    return nil
-                }
+            guard let lat = place.latitude,
+                  let lon = place.longitude else {
+                return nil
+            }
 
-                let distance = CLLocation(
-                    latitude: lat,
-                    longitude: lon
-                )
-                .distance(from: userLocation)
+            let distance = CLLocation(
+                latitude: lat,
+                longitude: lon
+            )
+            .distance(from: userLocation)
 
-                return WidgetPlace(
-                    name: place.name,
-                    emoji: place.category.emoji,
-                    distance: distance
-                )
+            return (place, distance)
+        }
+
+        var selected: [(SavedPlace, Double)] = []
+
+        for category in [
+            PlaceCategory.cafe,
+            PlaceCategory.restaurant,
+            PlaceCategory.shopping
+        ] {
+
+            if let nearest = nearbyPlaces
+                .filter({ $0.0.category == category })
+                .min(by: { $0.1 < $1.1 }) {
+
+                selected.append(nearest)
+            }
+        }
+        
+        let selectedIDs = Set(
+            selected.map { $0.0.id }
+        )
+
+        let remaining = nearbyPlaces
+            .filter {
+                !selectedIDs.contains($0.0.id)
             }
             .sorted {
-                ($0.distance ?? .greatestFiniteMagnitude)
-                <
-                ($1.distance ?? .greatestFiniteMagnitude)
+                $0.1 < $1.1
             }
-            .prefix(3)
-            .map { $0 }
+
+        selected.append(
+            contentsOf:
+            remaining.prefix(
+                max(0, 3 - selected.count)
+            )
+        )
+
+        return selected.prefix(3).map {
+
+            WidgetPlace(
+                name: $0.0.name,
+                emoji: $0.0.category.emoji,
+                distance: $0.1
+            )
+        }
     }
 
     var selected: [SavedPlace] = []

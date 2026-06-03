@@ -7,6 +7,7 @@ import SwiftUI
 import SwiftData
 import PhotosUI
 import MapKit
+import WidgetKit
 
 struct HomeView: View {
     
@@ -194,6 +195,7 @@ struct HomeView: View {
                             Button(role: .destructive) {
 
                                 modelContext.delete(place)
+                                WidgetCenter.shared.reloadAllTimelines()
 
                             } label: {
 
@@ -465,6 +467,7 @@ struct PlaceDetailView: View {
         .alert("Delete Place?", isPresented: $showDeleteAlert) {
             Button("Delete", role: .destructive) {
                 modelContext.delete(place)
+                WidgetCenter.shared.reloadAllTimelines()
                 dismiss()
             }
             
