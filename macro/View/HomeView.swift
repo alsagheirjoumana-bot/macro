@@ -181,24 +181,25 @@ struct HomeView: View {
                 emptyState
             } else {
                 VStack(spacing: 14) {
+
                     ForEach(filteredPlaces) { place in
-                        
+
                         SwipeToDeleteCard {
+
                             PlaceDetailView(place: place)
+
                         } label: {
+
                             SavedPlaceCard(place: place)
+
                         } onDelete: {
+
                             withAnimation {
+
                                 modelContext.delete(place)
                                 try? modelContext.save()
+
                                 WidgetCenter.shared.reloadAllTimelines()
-
-                            } label: {
-
-                                Label(
-                                    "Delete",
-                                    systemImage: "trash"
-                                )
                             }
                         }
                     }
