@@ -3,10 +3,40 @@ import SwiftData
 
 @main
 struct macroApp: App {
+
+    var sharedModelContainer: ModelContainer = {
+
+        let schema = Schema([
+            SavedPlace.self
+        ])
+
+        let appGroupID = "group.com.may.macro"
+
+        let storeURL = FileManager.default
+            .containerURL(
+                forSecurityApplicationGroupIdentifier: appGroupID
+            )!
+            .appendingPathComponent("Macro.sqlite")
+
+        let configuration = ModelConfiguration(
+            schema: schema,
+            url: storeURL
+        )
+
+        do {
+            return try ModelContainer(
+                for: schema,
+                configurations: [configuration]
+            )
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: SavedPlace.self)
+        .modelContainer(sharedModelContainer)
     }
 }

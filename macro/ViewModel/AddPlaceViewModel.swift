@@ -31,6 +31,7 @@ final class AddPlaceViewModel {
     }
 
     func save(context: ModelContext, imageData: Data? = nil) {
+
         let place = SavedPlace(
             name: name,
             neighborhood: neighborhood,
@@ -42,8 +43,15 @@ final class AddPlaceViewModel {
             longitude: longitude,
             address: address
         )
-        
+
         context.insert(place)
+
+        do {
+            try context.save()
+        } catch {
+            print("Save failed:", error)
+        }
+
         reset()
     }
 

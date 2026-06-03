@@ -6,8 +6,42 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CB71EF892FCF1A7700D29D6A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB71EF882FCF1A7700D29D6A /* WidgetKit.framework */; };
+		CB71EF8B2FCF1A7700D29D6A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB71EF8A2FCF1A7700D29D6A /* SwiftUI.framework */; };
+		CB71EF9A2FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CB71EF862FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CB71EF982FCF1A7700D29D6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84816A642FB2054000F118EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CB71EF852FCF1A7700D29D6A;
+			remoteInfo = NearbyPlaceWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CB71EF9B2FCF1A7800D29D6A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CB71EF9A2FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		84816A6C2FB2054000F118EC /* macro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB71EF862FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NearbyPlaceWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB71EF882FCF1A7700D29D6A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		CB71EF8A2FCF1A7700D29D6A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		CB71EFD92FCF1C3800D29D6A /* NearbyPlaceWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NearbyPlaceWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -18,6 +52,20 @@
 			);
 			target = 84816A6B2FB2054000F118EC /* macro */;
 		};
+		CB71EF9F2FCF1A7800D29D6A /* Exceptions for "NearbyPlaceWidget" folder in "NearbyPlaceWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CB71EF852FCF1A7700D29D6A /* NearbyPlaceWidgetExtension */;
+		};
+		CB71EFE12FD04C3900D29D6A /* Exceptions for "macro" folder in "NearbyPlaceWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				model/PlaceModels.swift,
+			);
+			target = CB71EF852FCF1A7700D29D6A /* NearbyPlaceWidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -25,8 +73,17 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				CB5DA5EF2FBCAAD6009D7BD3 /* Exceptions for "macro" folder in "macro" target */,
+				CB71EFE12FD04C3900D29D6A /* Exceptions for "macro" folder in "NearbyPlaceWidgetExtension" target */,
 			);
 			path = macro;
+			sourceTree = "<group>";
+		};
+		CB71EF8C2FCF1A7700D29D6A /* NearbyPlaceWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CB71EF9F2FCF1A7800D29D6A /* Exceptions for "NearbyPlaceWidget" folder in "NearbyPlaceWidgetExtension" target */,
+			);
+			path = NearbyPlaceWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -39,13 +96,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CB71EF832FCF1A7700D29D6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB71EF8B2FCF1A7700D29D6A /* SwiftUI.framework in Frameworks */,
+				CB71EF892FCF1A7700D29D6A /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		84816A632FB2054000F118EC = {
 			isa = PBXGroup;
 			children = (
+				CB71EFD92FCF1C3800D29D6A /* NearbyPlaceWidgetExtension.entitlements */,
 				84816A6E2FB2054000F118EC /* macro */,
+				CB71EF8C2FCF1A7700D29D6A /* NearbyPlaceWidget */,
+				CB71EF872FCF1A7700D29D6A /* Frameworks */,
 				84816A6D2FB2054000F118EC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,8 +123,18 @@
 			isa = PBXGroup;
 			children = (
 				84816A6C2FB2054000F118EC /* macro.app */,
+				CB71EF862FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CB71EF872FCF1A7700D29D6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CB71EF882FCF1A7700D29D6A /* WidgetKit.framework */,
+				CB71EF8A2FCF1A7700D29D6A /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,10 +147,12 @@
 				84816A682FB2054000F118EC /* Sources */,
 				84816A692FB2054000F118EC /* Frameworks */,
 				84816A6A2FB2054000F118EC /* Resources */,
+				CB71EF9B2FCF1A7800D29D6A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CB71EF992FCF1A7700D29D6A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				84816A6E2FB2054000F118EC /* macro */,
@@ -82,6 +163,28 @@
 			productName = macro;
 			productReference = 84816A6C2FB2054000F118EC /* macro.app */;
 			productType = "com.apple.product-type.application";
+		};
+		CB71EF852FCF1A7700D29D6A /* NearbyPlaceWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB71EF9E2FCF1A7800D29D6A /* Build configuration list for PBXNativeTarget "NearbyPlaceWidgetExtension" */;
+			buildPhases = (
+				CB71EF822FCF1A7700D29D6A /* Sources */,
+				CB71EF832FCF1A7700D29D6A /* Frameworks */,
+				CB71EF842FCF1A7700D29D6A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CB71EF8C2FCF1A7700D29D6A /* NearbyPlaceWidget */,
+			);
+			name = NearbyPlaceWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = NearbyPlaceWidgetExtension;
+			productReference = CB71EF862FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -94,6 +197,9 @@
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					84816A6B2FB2054000F118EC = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					CB71EF852FCF1A7700D29D6A = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
 				};
@@ -113,12 +219,20 @@
 			projectRoot = "";
 			targets = (
 				84816A6B2FB2054000F118EC /* macro */,
+				CB71EF852FCF1A7700D29D6A /* NearbyPlaceWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		84816A6A2FB2054000F118EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB71EF842FCF1A7700D29D6A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +249,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CB71EF822FCF1A7700D29D6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CB71EF992FCF1A7700D29D6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CB71EF852FCF1A7700D29D6A /* NearbyPlaceWidgetExtension */;
+			targetProxy = CB71EF982FCF1A7700D29D6A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		84816A752FB2054700F118EC /* Debug */ = {
@@ -264,9 +393,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macro/macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TTWF57XBU3;
+				DEVELOPMENT_TEAM = QTVLP7L5Z8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = macro/Info.plist;
@@ -283,7 +413,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joumana.macro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -300,9 +430,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macro/macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TTWF57XBU3;
+				DEVELOPMENT_TEAM = QTVLP7L5Z8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = macro/Info.plist;
@@ -319,11 +450,73 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joumana.macro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CB71EF9C2FCF1A7800D29D6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = NearbyPlaceWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QTVLP7L5Z8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NearbyPlaceWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NearbyPlaceWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro.NearbyPlaceWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CB71EF9D2FCF1A7800D29D6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = NearbyPlaceWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QTVLP7L5Z8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NearbyPlaceWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NearbyPlaceWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro.NearbyPlaceWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -348,6 +541,15 @@
 			buildConfigurations = (
 				84816A782FB2054700F118EC /* Debug */,
 				84816A792FB2054700F118EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB71EF9E2FCF1A7800D29D6A /* Build configuration list for PBXNativeTarget "NearbyPlaceWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB71EF9C2FCF1A7800D29D6A /* Debug */,
+				CB71EF9D2FCF1A7800D29D6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

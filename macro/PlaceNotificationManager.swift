@@ -76,6 +76,18 @@ final class PlaceNotificationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(
         _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
+
+        guard let coordinate = locations.last?.coordinate else {
+            return
+        }
+
+        LocationStore.save(coordinate: coordinate)
+    }
+    
+    func locationManager(
+        _ manager: CLLocationManager,
         didEnterRegion region: CLRegion
     ) {
         let placeName = UserDefaults.standard.string(

@@ -38,7 +38,16 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         _ manager: CLLocationManager,
         didUpdateLocations locations: [CLLocation]
     ) {
-        location = locations.last?.coordinate
+
+        guard let coordinate = locations.last?.coordinate else {
+            return
+        }
+
+        location = coordinate
+
+        LocationStore.save(
+            coordinate: coordinate
+        )
     }
 
     func startMonitoring(

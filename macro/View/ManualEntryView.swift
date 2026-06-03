@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import WidgetKit
 import CoreLocation
 import Combine
 
@@ -186,6 +187,11 @@ struct ManualEntryView: View {
         
         Button {
             viewModel.save(context: modelContext)
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + 0.5
+            ) {
+                WidgetCenter.shared.reloadAllTimelines()
+              }
             dismiss()
         } label: {
             
@@ -360,6 +366,15 @@ final class AddPlaceLocationManager: NSObject, ObservableObject, CLLocationManag
         _ manager: CLLocationManager,
         didUpdateLocations locations: [CLLocation]
     ) {
-        location = locations.last?.coordinate
+
+        guard let coordinate = locations.last?.coordinate else {
+            return
+        }
+
+        location = coordinate
+
+        LocationStore.save(
+            coordinate: coordinate
+        )
     }
 }
