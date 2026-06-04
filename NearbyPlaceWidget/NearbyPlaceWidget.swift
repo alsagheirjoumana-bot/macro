@@ -260,74 +260,99 @@ struct NearbyPlaceWidgetEntryView: View {
     var body: some View {
 
         VStack(alignment: .leading, spacing: 14) {
+            
+            if entry.places.isEmpty {
 
-            HStack(spacing: 8) {
+                VStack(spacing: 10) {
 
-                Image("Logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 30, height: 30)
-                    .offset(y: 15)
+                    Image("Logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
 
-                Text(entry.title)
-                    .font(.custom("Shafarik-Regular", size: 18))
-                    .foregroundStyle(.primary)
-                    .foregroundColor(.black)
-                    .offset(y: 15)
+                    Text("No Saved Places")
+                        .font(.custom("Shafarik-Regular", size: 18))
+                        .foregroundColor(.black)
 
-                Spacer()
-            }
-            .padding(.leading, -20)
+                    Text("Save places to see them here")
+                        .font(.caption)
+                        .foregroundColor(Color("AppBrown"))
+                }
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .center
+                )
 
-            ForEach(
-                Array(entry.places.enumerated()),
-                id: \.offset
-            ) { index, place in
+            } else {
+                
+                HStack(spacing: 8) {
 
-                VStack(spacing: 8) {
+                    Image("Logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
 
-                    HStack(spacing: 10) {
+                    Text(entry.title)
+                        .font(.custom("Shafarik-Regular", size: 18))
+                        .foregroundColor(.black)
 
-                        Text(place.emoji)
-                            .font(.title3)
+                    Spacer()
+                }
 
-                        Text(place.name)
-                            .font(.subheadline)
-                            .foregroundStyle(Color("AppBrown"))
-                            .lineLimit(1)
+                ForEach(
+                    Array(entry.places.enumerated()),
+                    id: \.offset
+                ) { index, place in
 
-                        Spacer()
+                    VStack(spacing: 8) {
 
-                        if let distance = place.distance {
+                        HStack(spacing: 10) {
 
-                            let distanceText =
-                                distance >= 1000
-                                ? String(format: "%.1fkm", distance / 1000)
-                                : "\(Int(distance))m"
+                            Text(place.emoji)
+                                .font(.title3)
 
-                            HStack(spacing: 4) {
+                            Text(place.name)
+                                .font(.subheadline)
+                                .foregroundStyle(Color("AppBrown"))
+                                .lineLimit(1)
 
-                                Text(distanceText)
-                                    .font(.caption)
-                                    .foregroundColor(Color("AppBrown"))
+                            Spacer()
 
-                                Image(systemName: "location.fill")
-                                    .foregroundColor(Color("Orange"))
+                            if let distance = place.distance {
+
+                                let distanceText =
+                                    distance >= 1000
+                                    ? String(format: "%.1fkm", distance / 1000)
+                                    : "\(Int(distance))m"
+
+                                HStack(spacing: 4) {
+
+                                    Text(distanceText)
+                                        .font(.caption)
+                                        .foregroundColor(Color("AppBrown"))
+
+                                    Image(systemName: "location.fill")
+                                        .foregroundColor(Color("Orange"))
+                                }
                             }
                         }
-                    }
 
-                    if index < entry.places.count - 1 {
-                        Divider()
-                            .overlay(
-                                Color("AppBrown").opacity(0.10)
-                            )
+                        if index < entry.places.count - 1 {
+
+                            Divider()
+                                .overlay(
+                                    Color("AppBrown").opacity(0.10)
+                                )
+                        }
                     }
                 }
-            }
 
-            Spacer()
+            }
         }
+        .frame(maxWidth: .infinity,
+               maxHeight: .infinity,
+               alignment: .topLeading)
         .padding()
         .containerBackground(
             Color("WidgetBackground"),
