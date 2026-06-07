@@ -12,7 +12,7 @@ import CoreLocation
 enum LocationStore {
 
     static let defaults = UserDefaults(
-        suiteName: "group.com.may.macro"
+        suiteName: "group.com.reemaa.macro"
     )
 
     static func save(

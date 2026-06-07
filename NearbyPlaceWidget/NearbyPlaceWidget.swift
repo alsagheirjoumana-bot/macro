@@ -21,7 +21,7 @@ func loadPlaces() -> [WidgetPlace] {
 
         let storeURL = FileManager.default
             .containerURL(
-                forSecurityApplicationGroupIdentifier: "group.com.may.macro"
+                forSecurityApplicationGroupIdentifier: "group.com.reemaa.macro"
             )!
             .appendingPathComponent("Macro.sqlite")
 
@@ -59,7 +59,7 @@ func buildWidgetPlaces(
     }
 
     let defaults = UserDefaults(
-        suiteName: "group.com.may.macro"
+        suiteName: "group.com.reemaa.macro"
     )
 
     let latitude = defaults?.object(
@@ -208,9 +208,7 @@ struct Provider: TimelineProvider {
 
         let entry = SimpleEntry(
             date: Date(),
-            title: places.isEmpty
-                ? "No Saved Places"
-                : "Nearby Saved Places",
+            title: "Nearby Saved Places",
             places: places
         )
         
@@ -226,9 +224,7 @@ struct Provider: TimelineProvider {
 
         let entry = SimpleEntry(
             date: Date(),
-            title: places.isEmpty
-                ? "No Saved Places"
-                : "Nearby Saved Places",
+            title: "Nearby Saved Places",
             places: places
         )
 
@@ -253,81 +249,119 @@ struct SimpleEntry: TimelineEntry {
     let places: [WidgetPlace]
 }
 
-struct NearbyPlaceWidgetEntryView: View {
-
+ struct NearbyPlaceWidgetEntryView: View {
+    
     var entry: Provider.Entry
-
+    
     var body: some View {
-
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-
-                Image("Logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 30, height: 30)
-
-                Text(entry.title)
-                    .font(.custom("Shafarik-Regular", size: 18))
-                    .foregroundColor(.black)
-
-                Spacer()
-            }
-            .padding(.bottom, 6)
-
-            ForEach(
-                Array(entry.places.enumerated()),
-                id: \.offset
-            ) { index, place in
-
-                VStack(spacing: 8) {
-
-                    HStack(spacing: 10) {
-
-                        Text(place.emoji)
-                            .font(.title3)
-
-                        Text(place.name)
-                            .font(.subheadline)
-                            .foregroundStyle(Color("AppBrown"))
+        
+        Group {
+            
+            if entry.places.isEmpty {
+                
+                VStack(spacing: 12) {
+                    
+                    Image("Logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 42, height: 42)
+                    
+                    Text("No Saved Places")
+                        .font(.custom("Shafarik-Regular", size: 18))
+                        .foregroundColor(.black)
+                    
+                    Text("Save places to see them here")
+                        .font(.caption)
+                        .foregroundColor(Color("AppBrown"))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
+            } else {
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    
+                    HStack(spacing: 8) {
+                        
+                        Image("Logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24, height: 24)
+                        
+                        Text(entry.title)
+                            .font(.custom("Shafarik-Regular", size: 18))
+                            .foregroundColor(.black)
                             .lineLimit(1)
-
+                            .fixedSize()
+                        
                         Spacer()
-
-                        if let distance = place.distance {
-
-                            let distanceText =
-                                distance >= 1000
-                                ? String(format: "%.1fkm", distance / 1000)
-                                : "\(Int(distance))m"
-
-                            HStack(spacing: 4) {
-
-                                Text(distanceText)
-                                    .font(.caption)
-                                    .foregroundColor(Color("AppBrown"))
-
-                                Image(systemName: "location.fill")
-                                    .foregroundColor(Color("Orange"))
+                    }
+                    .frame(height: 32)
+                    .layoutPriority(100)
+                    
+                    VStack(spacing: 8) {
+                        
+                        ForEach(
+                            Array(entry.places.prefix(3).enumerated()),
+                            id: \.offset
+                        ) { index, place in
+                            
+                            VStack(spacing: 8) {
+                                
+                                HStack(spacing: 10) {
+                                    
+                                    Text(place.emoji)
+                                        .font(.title3)
+                                        .frame(width: 30)
+                                    
+                                    Text(place.name)
+                                        .font(.subheadline)
+                                        .foregroundStyle(Color("AppBrown"))
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    
+                                    Spacer()
+                                    
+                                    if let distance = place.distance {
+                                        
+                                        let distanceText =
+                                        distance >= 1000
+                                        ? String(format: "%.1fkm", distance / 1000)
+                                        : "\(Int(distance))m"
+                                        
+                                        HStack(spacing: 4) {
+                                            
+                                            Text(distanceText)
+                                                .font(.caption)
+                                                .foregroundColor(Color("AppBrown"))
+                                            
+                                            Image(systemName: "location.fill")
+                                                .foregroundColor(Color("Orange"))
+                                        }
+                                    }
+                                }
+                                
+                                if index < min(entry.places.count, 3) - 1 {
+                                    
+                                    Divider()
+                                        .overlay(
+                                            Color("AppBrown").opacity(0.10)
+                                        )
+                                }
                             }
                         }
-
-                        if index < entry.places.count - 1 {
-
-                            Divider()
-                                .overlay(
-                                    Color("AppBrown").opacity(0.10)
-                                )
-                        }
                     }
+                    .frame(height: 110, alignment: .top)
+                    
+                    Spacer(minLength: 0)
                 }
-
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: .topLeading
+                )
             }
-
         }
-        .frame(maxWidth: .infinity,
-               maxHeight: .infinity,
-               alignment: .topLeading)
         .padding()
         .containerBackground(
             Color("WidgetBackground"),
@@ -348,6 +382,7 @@ struct NearbyPlaceWidget: Widget {
         .supportedFamilies([
             .systemMedium
         ])
+        .contentMarginsDisabled()
     }
 }
 
