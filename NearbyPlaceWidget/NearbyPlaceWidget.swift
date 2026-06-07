@@ -259,25 +259,21 @@ struct NearbyPlaceWidgetEntryView: View {
 
     var body: some View {
 
-        VStack(alignment: .leading, spacing: 14) {
-
+        VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
 
                 Image("Logo")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 30, height: 30)
-                    .offset(y: 15)
 
                 Text(entry.title)
                     .font(.custom("Shafarik-Regular", size: 18))
-                    .foregroundStyle(.primary)
                     .foregroundColor(.black)
-                    .offset(y: 15)
 
                 Spacer()
             }
-            .padding(.leading, -20)
+            .padding(.bottom, 6)
 
             ForEach(
                 Array(entry.places.enumerated()),
@@ -326,7 +322,6 @@ struct NearbyPlaceWidgetEntryView: View {
                 }
             }
 
-            Spacer()
         }
         .padding()
         .containerBackground(
