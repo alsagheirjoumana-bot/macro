@@ -13,6 +13,7 @@ struct MapPlace: Identifiable {
     var latitude: Double
     var longitude: Double
     var distance: Double
+    var category: PlaceCategory = .other
 }
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
@@ -33,6 +34,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             options: [.alert, .sound, .badge]
         ) { _, _ in }
     }
+
 
     func locationManager(
         _ manager: CLLocationManager,
@@ -480,7 +482,8 @@ struct MapView: View {
                     longitude: coordinate.longitude,
                     distance: userLocation.distance(
                         from: placeLocation
-                    )
+                    ),
+                    category: guessCategory(from: item)
                 )
             }
 
@@ -500,7 +503,7 @@ struct MapView: View {
             name: place.name,
             neighborhood: "",
             notes: place.note,
-            category: .other,
+            category: place.category,
             isVisited: false,
             latitude: place.latitude,
             longitude: place.longitude,
@@ -555,7 +558,28 @@ struct MapView: View {
             )
         )
     }
+    
+    func guessCategory(from item: MKMapItem) -> PlaceCategory {
 
+        guard let category = item.pointOfInterestCategory else {
+            return .other
+        }
+
+        switch category {
+
+        case .cafe, .bakery:
+            return .cafe
+
+        case .restaurant, .foodMarket:
+            return .restaurant
+
+        case .store:
+            return .shopping
+
+        default:
+            return .other
+        }
+    }
     func openGoogleMaps(for place: MapPlace) {
         let urlString =
         "https://www.google.com/maps/dir/?api=1&destination=\(place.latitude),\(place.longitude)&travelmode=driving"
