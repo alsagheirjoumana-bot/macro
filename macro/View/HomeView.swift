@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import UIKit
 import SwiftData
 import PhotosUI
 import MapKit
@@ -246,17 +247,19 @@ struct HomeView: View {
         places.filter { $0.category == category }.count
     }
 }
+
 private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
     
     let destination: Destination
     let label: Label
     let onDelete: () -> Void
-    
+
     @State private var offset: CGFloat = 0
-    @State private var dragAmount: CGFloat = 0
     @State private var shouldNavigate = false
     @State private var showDeleteAlert = false
-    
+
+    private let maxSwipe: CGFloat = -140
+
     init(
         @ViewBuilder destination: () -> Destination,
         @ViewBuilder label: () -> Label,
@@ -266,39 +269,52 @@ private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
         self.label = label()
         self.onDelete = onDelete
     }
-    
+
     var body: some View {
-        
+
         ZStack(alignment: .trailing) {
-            
-            if offset < -8 {
-                Button {
-                    showDeleteAlert = true
-                } label: {
-                    VStack(spacing: 4) {
-                        Image(systemName: "trash.fill")
-                            .font(.headline)
-                        
-                        Text("Delete")
-                            .font(.caption2)
-                            .fontWeight(.semibold)
-                    }
-                    .foregroundColor(.white)
-                    .frame(width: 62, height: 62)
-                    .background(Color.red)
-                    .clipShape(Circle())
+
+            //DELETE BUTTON
+            Button {
+                showDeleteAlert = true
+            } label: {
+
+                HStack(spacing: 8) {
+
+                    Image(systemName: "trash.fill")
+                        .font(.system(size: 14, weight: .semibold))
+
+                    Text("Delete")
+                        .font(.system(size: 14, weight: .semibold))
                 }
-                .buttonStyle(.plain)
-                .padding(.trailing, 18)
-                .zIndex(1)
+                .foregroundColor(.white)
+                .padding(.horizontal, 16 + abs(offset * 0.18))
+                .padding(.vertical, 10)
+                .background(
+                    ZStack {
+                        Color.red.opacity(0.95)
+
+                        // subtle glass feel
+                        BlurView(style: .systemUltraThinMaterialDark)
+                            .opacity(0.25)
+                    }
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
+                .scaleEffect(offset == 0 ? 0.85 : 1)
+                .opacity(offset == 0 ? 0 : 1)
+                .animation(.spring(response: 0.35, dampingFraction: 0.85), value: offset)
             }
-            
+            .padding(.trailing, 16)
+
             label
-                .offset(x: offset)
-                .allowsHitTesting(offset == 0)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
                 .contentShape(Rectangle())
+                .offset(x: offset)
                 .onTapGesture {
-                    if offset == 0 && abs(dragAmount) < 5 {
+
+                    if offset == 0 {
                         shouldNavigate = true
                     } else {
                         withAnimation(.spring()) {
@@ -307,29 +323,35 @@ private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
                     }
                 }
                 .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            dragAmount = value.translation.width
-                            
-                            let horizontal = abs(value.translation.width)
-                            let vertical = abs(value.translation.height)
-                            
-                            if horizontal > vertical,
-                               value.translation.width < 0 {
-                                offset = max(value.translation.width, -85)
-                            }
-                        }
+                    DragGesture(minimumDistance: 25)
                         .onEnded { value in
-                            withAnimation(.spring()) {
-                                if value.translation.width < -45 {
-                                    offset = -85
-                                } else {
-                                    offset = 0
+
+                            let dx = value.translation.width
+                            let dy = value.translation.height
+
+                            guard abs(dx) > abs(dy) else { return }
+
+                            withAnimation(.spring(response: 0.35,
+                                                  dampingFraction: 0.85)) {
+
+                                // Close if already open
+                                if offset != 0 {
+                                    if dx > 20 {
+                                        offset = 0
+                                    }
+                                    return
                                 }
-                            }
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                dragAmount = 0
+
+                                // Open
+                                if dx < -80 {
+                                    offset = maxSwipe
+
+                                    if dx < -130 {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            showDeleteAlert = true
+                                        }
+                                    }
+                                }
                             }
                         }
                 )
@@ -343,23 +365,35 @@ private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
                     .hidden()
                 )
         }
+
         .alert("Delete Place?", isPresented: $showDeleteAlert) {
+
             Button("Delete", role: .destructive) {
                 withAnimation {
                     onDelete()
-                }
-            }
-            
-            Button("Cancel", role: .cancel) {
-                withAnimation(.spring()) {
                     offset = 0
                 }
             }
-        } message: {
-            Text("Are you sure you want to delete this place? This action cannot be undone.")
+
+            Button("Cancel", role: .cancel) {
+                withAnimation {
+                    offset = 0
+                }
+            }
         }
     }
 }
+
+struct BlurView: UIViewRepresentable {
+    var style: UIBlurEffect.Style
+
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        UIVisualEffectView(effect: UIBlurEffect(style: style))
+    }
+
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {}
+}
+
 // MARK: - Saved Place Card
 
 private struct SavedPlaceCard: View {
@@ -490,6 +524,7 @@ struct PlaceDetailView: View {
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var isEditing = false
     @State private var showDeleteAlert = false
+    @State private var showPhotoMenu = false
     
     @State private var editedName = ""
     @State private var editedNotes = ""
@@ -621,45 +656,119 @@ struct PlaceDetailView: View {
     
     private var imageSection: some View {
         
-        PhotosPicker(selection: $selectedPhoto, matching: .images) {
-            ZStack {
-                
-                RoundedRectangle(cornerRadius: 28)
-                    .fill(Color.white.opacity(0.9))
+        ZStack {
+
+            RoundedRectangle(cornerRadius: 28)
+                .fill(Color.white.opacity(0.9))
+                .frame(height: 320)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28)
+                        .stroke(Color("AppOrange"), lineWidth: 1.5)
+                )
+
+            if let imageData = isEditing ? editedImageData : place.imageData,
+               let uiImage = UIImage(data: imageData) {
+
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity)
                     .frame(height: 320)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 28)
-                            .stroke(Color("AppGray"), lineWidth: 1)
-                    )
-                
-                if let imageData = isEditing ? editedImageData : place.imageData,
-                   let uiImage = UIImage(data: imageData) {
-                    
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 320)
-                        .clipShape(RoundedRectangle(cornerRadius: 28))
-                    
-                } else {
-                    
-                    VStack(spacing: 12) {
-                        Image(systemName: "photo")
-                            .font(.system(size: 95))
-                            .foregroundColor(.gray)
-                        
+                    .clipShape(RoundedRectangle(cornerRadius: 28))
+
+            } else {
+
+                VStack(spacing: 14) {
+
+                    Image(systemName: "photo")
+                        .font(.system(size: 95))
+                        .foregroundColor(.gray)
+
+                    PhotosPicker(
+                        selection: $selectedPhoto,
+                        matching: .images
+                    ) {
+
                         Image(systemName: "square.and.arrow.up")
                             .font(.title2)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.white)
+                            .frame(width: 52, height: 52)
+                            .background(Color("AppOrange"))
+                            .clipShape(Circle())
                     }
+                    .buttonStyle(.plain)
+                }
+            }
+
+            if isEditing {
+
+                VStack {
+
+                    HStack {
+
+                        Spacer()
+
+                        VStack(spacing: 10) {
+
+                            PhotosPicker(
+                                selection: $selectedPhoto,
+                                matching: .images
+                            ) {
+
+                                Image(systemName: "pencil")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(width: 38, height: 38)
+                                    .background(Color("AppOrange"))
+                                    .clipShape(Circle())
+                            }
+                            .buttonStyle(.plain)
+
+                            if editedImageData != nil {
+
+                                Button {
+
+                                    editedImageData = nil
+
+                                } label: {
+
+                                    Image(systemName: "trash")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .frame(width: 38, height: 38)
+                                        .background(.red)
+                                        .clipShape(Circle())
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(16)
+                    }
+
+                    Spacer()
                 }
             }
         }
-        .buttonStyle(.plain)
-        .disabled(!isEditing)
-        .opacity(isEditing ? 1 : 0.9)
         .padding(.top, 18)
+        .onChange(of: selectedPhoto) { _, newItem in
+
+            Task {
+
+                guard let data = try? await newItem?.loadTransferable(type: Data.self)
+                else { return }
+
+                if isEditing {
+
+                    editedImageData = data
+
+                } else {
+
+                    place.imageData = data
+                    try? modelContext.save()
+                    WidgetCenter.shared.reloadAllTimelines()
+                }
+            }
+        }
     }
     private var hasUnsavedChanges: Bool {
         
