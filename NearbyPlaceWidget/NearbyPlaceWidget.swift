@@ -311,18 +311,23 @@ struct NearbyPlaceWidgetEntryView: View {
                                     .foregroundColor(Color("Orange"))
                             }
                         }
-                    }
 
-                    if index < entry.places.count - 1 {
-                        Divider()
-                            .overlay(
-                                Color("AppBrown").opacity(0.10)
-                            )
+                        if index < entry.places.count - 1 {
+
+                            Divider()
+                                .overlay(
+                                    Color("AppBrown").opacity(0.10)
+                                )
+                        }
                     }
                 }
+
             }
 
         }
+        .frame(maxWidth: .infinity,
+               maxHeight: .infinity,
+               alignment: .topLeading)
         .padding()
         .containerBackground(
             Color("WidgetBackground"),
