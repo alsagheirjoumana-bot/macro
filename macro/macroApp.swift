@@ -10,7 +10,7 @@ struct macroApp: App {
             SavedPlace.self
         ])
 
-        let appGroupID = "group.com.reemaa.macro"
+        let appGroupID = "group.com.may.macro"
 
         let storeURL = FileManager.default
             .containerURL(

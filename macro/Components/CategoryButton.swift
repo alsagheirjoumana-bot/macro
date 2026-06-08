@@ -46,5 +46,7 @@ struct CategoryButton: View {
             )
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(title)
+        .accessibilityHint("\(number) places")
     }
 }
