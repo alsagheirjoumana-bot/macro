@@ -73,10 +73,12 @@ struct HomeView: View {
             Text("Your Places")
                 .font(.custom("Shafarik-Regular", size: 38))
                 .foregroundColor(.black)
+                .accessibilityAddTraits(.isHeader)
             
             Text("Discover, remember, revisit")
                 .font(.subheadline)
                 .foregroundColor(Color("AppBrown").opacity(0.75))
+                .accessibilityHidden(true)
         }
     }
     
@@ -117,6 +119,8 @@ struct HomeView: View {
             .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 6)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("Add a new place")
+        .accessibilityHint("Double tap to create a new saved place")
     }
     
     private var categorySection: some View {
@@ -127,6 +131,7 @@ struct HomeView: View {
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundColor(Color("AppBrown"))
+                .accessibilityAddTraits(.isHeader)
             
             LazyVGrid(columns: columns, spacing: 14) {
                 
@@ -177,6 +182,7 @@ struct HomeView: View {
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundColor(Color("AppBrown"))
+                .accessibilityAddTraits(.isHeader)
             
             if places.isEmpty {
                 emptyState
@@ -241,6 +247,8 @@ struct HomeView: View {
         .background(Color.white.opacity(0.9))
         .clipShape(RoundedRectangle(cornerRadius: 28))
         .shadow(color: .black.opacity(0.05), radius: 12, x: 0, y: 6)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("No places have been saved yet. Tap Add a new place to save your first location.")
     }
     
     private func count(for category: PlaceCategory) -> Int {
@@ -306,6 +314,8 @@ private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
                 .animation(.spring(response: 0.35, dampingFraction: 0.85), value: offset)
             }
             .padding(.trailing, 16)
+            .accessibilityLabel("Delete place")
+            .accessibilityHint("Deletes this saved place")
 
             label
                 .background(Color.white)
@@ -438,6 +448,10 @@ private struct SavedPlaceCard: View {
                             .fill(.white)
                             .frame(width: 6, height: 6)
                         
+                        Image(systemName: place.isVisited ? "checkmark.circle.fill" : "checkmark.circle.dotted")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                        
                         Text(place.isVisited ? "Visited" : "Want to Visit")
                             .font(.caption)
                             .fontWeight(.semibold)
@@ -486,6 +500,8 @@ private struct SavedPlaceCard: View {
                     .clipShape(Circle())
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Open directions")
+            .accessibilityHint("Opens navigation to \(place.name)")
         }
         .padding(20)
         .background(Color.white.opacity(0.96))
@@ -496,9 +512,10 @@ private struct SavedPlaceCard: View {
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
-            "\(place.name), \(place.category.rawValue), \(place.isVisited ? "visited" : "want to visit")"
+            "\(place.name). Category \(place.category.rawValue). \(place.isVisited ? "Visited" : "Want to visit")."
         )
-        .accessibilityHint("Double tap to open place details")
+        .accessibilityHint("Double tap to view place details.")
+        .accessibilityAddTraits(.isButton)
     }
     
     private func openDirections(_ place: SavedPlace) {
@@ -584,6 +601,8 @@ struct PlaceDetailView: View {
                     }
                     .foregroundColor(.black)
                 }
+                .accessibilityLabel("Go back")
+                .accessibilityHint("Returns to the home page")
             }
             
             ToolbarItem(placement: .principal) {
@@ -607,6 +626,8 @@ struct PlaceDetailView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(Color("AppOrange"))
                 }
+                .accessibilityLabel(isEditing ? "Save changes" : "Edit place")
+                .accessibilityHint(isEditing ? "Saves your changes" : "Opens editing mode")
             }
         }
         .alert("Delete Place?", isPresented: $showDeleteAlert) {
@@ -697,6 +718,8 @@ struct PlaceDetailView: View {
                             .clipShape(Circle())
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel("Upload image")
+                    .accessibilityHint("Upload a picture of the place")
                 }
             }
 
@@ -862,6 +885,8 @@ struct PlaceDetailView: View {
                     .background(Color.red.opacity(0.08))
                     .clipShape(Capsule())
             }
+            .accessibilityLabel("Delete place")
+            .accessibilityHint("Permanently deletes this saved place")
         }
     }
     
