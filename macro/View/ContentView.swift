@@ -65,13 +65,6 @@ struct MainTabView: View {
 
         }
         .tint(Color("AppBrown"))
-        .onAppear {
-            PlaceNotificationManager.shared.requestPermissions()
-            PlaceNotificationManager.shared.monitorPlaces(savedPlaces)
-        }
-        .onChange(of: savedPlaces.count) { _, _ in
-            PlaceNotificationManager.shared.monitorPlaces(savedPlaces)
-        }
     }
 }
 

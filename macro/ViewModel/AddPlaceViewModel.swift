@@ -48,6 +48,9 @@ final class AddPlaceViewModel {
 
         do {
             try context.save()
+
+            NotificationManager.shared.placeWasSaved(place)
+
         } catch {
             print("Save failed:", error)
         }

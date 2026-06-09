@@ -40,6 +40,15 @@ struct macroApp: App {
         WindowGroup {
             ContentView()
                 .preferredColorScheme(.light)
+                .onAppear {
+
+                    NotificationManager.shared.requestNotificationPermission()
+
+                    NotificationManager.shared.requestLocationPermission()
+
+                    NotificationManager.shared.scheduleTimeReminder()
+
+                }
         }
         .modelContainer(sharedModelContainer)
     }

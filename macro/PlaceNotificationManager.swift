@@ -5,7 +5,7 @@
 //  Created by Joumana Alsagheir on 02/06/2026.
 //
 
-import Foundation
+/*import Foundation
 import CoreLocation
 import UserNotifications
 
@@ -108,3 +108,4 @@ final class PlaceNotificationManager: NSObject, CLLocationManagerDelegate {
         UNUserNotificationCenter.current().add(request)
     }
 }
+*/

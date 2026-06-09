@@ -203,6 +203,8 @@ struct HomeView: View {
 
                             withAnimation {
 
+                                NotificationManager.shared.placeWasDeleted(place)
+
                                 modelContext.delete(place)
                                 try? modelContext.save()
 
