@@ -43,6 +43,11 @@ final class AddPlaceViewModel {
             longitude: longitude,
             address: address
         )
+        print("Saving place:")
+        print("Name:", name)
+        print("Latitude:", latitude ?? -1)
+        print("Longitude:", longitude ?? -1)
+        print("Address:", address)
 
         context.insert(place)
 
