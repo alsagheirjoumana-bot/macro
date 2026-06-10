@@ -38,28 +38,47 @@ final class NotificationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func scheduleTimeReminder() {
+        
+        UNUserNotificationCenter.current()
+            .removePendingNotificationRequests(
+                withIdentifiers: [
+                    "place-reminder-monday",
+                    "place-reminder-wednesday",
+                    "place-reminder-friday"
+                ]
+            )
 
-        let content = UNMutableNotificationContent()
-        content.title = "Places Reminder"
-        content.body = "Don't forget to check your saved places."
-        content.sound = .default
+        let days = [
+            (id: "place-reminder-monday", weekday: 2),
+            (id: "place-reminder-wednesday", weekday: 4),
+            (id: "place-reminder-friday", weekday: 6)
+        ]
 
-        var date = DateComponents()
-        date.hour = 20
-        date.minute = 0
+        for day in days {
 
-        let trigger = UNCalendarNotificationTrigger(
-            dateMatching: date,
-            repeats: true
-        )
+            let content = UNMutableNotificationContent()
+            content.title = "Feeling bored? 👀"
+            content.body = "Makan has the solution for you!"
+            content.sound = .default
 
-        let request = UNNotificationRequest(
-            identifier: "daily-place-reminder",
-            content: content,
-            trigger: trigger
-        )
+            var date = DateComponents()
+            date.weekday = day.weekday
+            date.hour = 20
+            date.minute = 0
 
-        UNUserNotificationCenter.current().add(request)
+            let trigger = UNCalendarNotificationTrigger(
+                dateMatching: date,
+                repeats: true
+            )
+
+            let request = UNNotificationRequest(
+                identifier: day.id,
+                content: content,
+                trigger: trigger
+            )
+
+            UNUserNotificationCenter.current().add(request)
+        }
     }
 
     func placeWasSaved(_ place: SavedPlace) {
@@ -111,18 +130,18 @@ final class NotificationManager: NSObject, CLLocationManagerDelegate {
         let content = UNMutableNotificationContent()
 
         if place.isVisited {
-            content.title = "📍 Welcome back!"
-            content.body = "You're near \(place.name) again."
+            content.title = "⭐️ Familiar Spot"
+            content.body = "\(place.name) is nearby again."
         } else {
-            content.title = "⭐ Wishlist Reminder"
-            content.body = "You're near \(place.name)!"
+            content.title = "👀 Nearby Pick"
+            content.body = "\(place.name) is close by."
         }
 
         content.sound = .default
 
         let trigger = UNLocationNotificationTrigger(
             region: region,
-            repeats: true
+            repeats: false
         )
 
         let request = UNNotificationRequest(
