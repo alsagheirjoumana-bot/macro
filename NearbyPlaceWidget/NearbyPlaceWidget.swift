@@ -99,7 +99,7 @@ func buildWidgetPlaces(
         for category in [
             PlaceCategory.cafe,
             PlaceCategory.restaurant,
-            PlaceCategory.shopping
+            PlaceCategory.shop
         ] {
 
             if let nearest = nearbyPlaces
@@ -153,10 +153,10 @@ func buildWidgetPlaces(
         selected.append(restaurant)
     }
 
-    if let shopping = unvisited.first(where: {
-        $0.category == .shopping
+    if let shop = unvisited.first(where: {
+        $0.category == .shop
     }) {
-        selected.append(shopping)
+        selected.append(shop)
     }
 
     let remaining = unvisited
@@ -194,7 +194,7 @@ struct Provider: TimelineProvider {
             places: [
                 WidgetPlace(name: "Cafe", emoji: "☕️", distance: 120),
                 WidgetPlace(name: "Restaurant", emoji: "🍽️", distance: 300),
-                WidgetPlace(name: "Shopping", emoji: "🛍️", distance: 700)
+                WidgetPlace(name: "shop", emoji: "🛍️", distance: 700)
             ]
         )
     }
@@ -287,7 +287,7 @@ struct SimpleEntry: TimelineEntry {
                             .scaledToFit()
                             .frame(width: 24, height: 24)
                         
-                        Text(entry.title)
+                        Text(String(localized: String.LocalizationValue(entry.title)))
                             .font(.custom("Shafarik-Regular", size: 18))
                             .foregroundColor(.black)
                             .lineLimit(1)
@@ -405,7 +405,7 @@ struct NearbyPlaceWidget: Widget {
                 distance: 300
             ),
             WidgetPlace(
-                name: "Shopping",
+                name: "Shop",
                 emoji: "🛍️",
                 distance: 700
             )

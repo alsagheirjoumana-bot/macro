@@ -39,6 +39,11 @@
 "Shops" = "متاجر";
 "Others" = "أخرى";
 
+"Restaurant" = "مطعم";
+"Cafe" = "كافيه";
+"Shop" = "متجر";
+"Other" = "أخرى";
+
 "Get Started" = "ابدأ";
 "Saved Places" = "الأماكن المحفوظة";
 
@@ -47,6 +52,8 @@
 
 "Delete" = "حذف";
 "Delete Place" = "حذف المكان";
+"Delete Place?" = "حذف المكان؟";
+"Cancel" = "تراجع";
 
 "Are you sure you want to delete this place? This action cannot be undone." = "متأكد من حذف المكان؟ لا تستطيع التراجع بعد الحذف";
 
@@ -81,7 +88,7 @@
 
 "Start typing a place name..." = "ابدأ بكتابة اسم المكان...";
 
-"What caught your eye? What to try?" = "وش شد انتباهك؟ وش ودك تجربه؟";
+"What caught your eye? What to try?" = "وش شد انتباهك؟ وش ودك تجرب؟";
 
 "e.g. Al Olaya, Riyadh" = "مثال: العليا، الرياض";
 
@@ -94,3 +101,8 @@
 "Open in Maps" = "افتح بالخريطة";
 
 "SPIN" = "ابدأ";
+
+
+"Nearby Saved Places" = "اماكن قريبة منك";
+"No Saved Places" = "لا توجد أماكن محفوظة";
+"Save places to see them here" = "احفظ أماكن لتظهر هنا";

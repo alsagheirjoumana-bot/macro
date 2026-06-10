@@ -79,11 +79,10 @@ struct AddPlaceView: View {
                         
                         HStack(spacing: 4) {
                             
-                            Image("Back")
-                            
+                            Image(systemName: "arrow.backward")
                             Text("Back")
                         }
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(.black)
                     }
                 }
             }

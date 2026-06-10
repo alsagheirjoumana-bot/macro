@@ -113,7 +113,7 @@ struct SpinView: View {
                 categoryChip(
                     String(localized: "Shops"),
                     emoji: "🛍️",
-                    category: .shopping
+                    category: .shop
                 )
                 
                 categoryChip(

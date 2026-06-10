@@ -24,7 +24,7 @@ struct CategoryPickerView: View {
                 ForEach([
                     PlaceCategory.cafe,
                     .restaurant,
-                    .shopping
+                    .shop
                 ]) { cat in
                     
                     Button {
@@ -96,8 +96,8 @@ struct CategoryPickerView: View {
         case .restaurant:
             return "Restaurant"
             
-        case .shopping:
-            return "Shopping"
+        case .shop:
+            return "Shop"
             
         case .other:
             return "Custom category"

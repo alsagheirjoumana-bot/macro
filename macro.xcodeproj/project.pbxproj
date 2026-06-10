@@ -416,7 +416,7 @@
 				CODE_SIGN_ENTITLEMENTS = macro/macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 29HB26473H;
+				DEVELOPMENT_TEAM = QTVLP7L5Z8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = macro/Info.plist;
@@ -454,7 +454,7 @@
 				CODE_SIGN_ENTITLEMENTS = macro/macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 29HB26473H;
+				DEVELOPMENT_TEAM = QTVLP7L5Z8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = macro/Info.plist;
@@ -492,7 +492,7 @@
 				CODE_SIGN_ENTITLEMENTS = NearbyPlaceWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 29HB26473H;
+				DEVELOPMENT_TEAM = QTVLP7L5Z8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NearbyPlaceWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NearbyPlaceWidget;
@@ -523,7 +523,7 @@
 				CODE_SIGN_ENTITLEMENTS = NearbyPlaceWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 29HB26473H;
+				DEVELOPMENT_TEAM = QTVLP7L5Z8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NearbyPlaceWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NearbyPlaceWidget;

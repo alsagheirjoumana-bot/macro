@@ -574,7 +574,7 @@ struct MapView: View {
             return .restaurant
 
         case .store:
-            return .shopping
+            return .shop
 
         default:
             return .other

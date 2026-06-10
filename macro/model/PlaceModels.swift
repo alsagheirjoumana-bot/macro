@@ -31,7 +31,7 @@ enum PlaceCategory: String, Codable, CaseIterable, Identifiable {
 
     case cafe       = "Cafe"
     case restaurant = "Restaurant"
-    case shopping   = "Shopping"
+    case shop   = "Shop"
     case other      = "Other"
 
     var id: String { rawValue }
@@ -46,7 +46,7 @@ enum PlaceCategory: String, Codable, CaseIterable, Identifiable {
         case .restaurant:
             return "🍽️"
 
-        case .shopping:
+        case .shop:
             return "🛍️"
 
         case .other:

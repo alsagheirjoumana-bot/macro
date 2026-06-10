@@ -24,7 +24,7 @@ struct CategoryButton: View {
                 
                 VStack(alignment: .leading, spacing: 2) {
                     
-                    Text("\(number)")
+                    Text(number.formatted(.number.locale(Locale(identifier: "en_US"))))
                         .font(.headline)
                         .fontWeight(.bold)
                         .foregroundColor(.black)
@@ -47,6 +47,10 @@ struct CategoryButton: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(title)
-        .accessibilityHint("\(number) places")
+        .accessibilityHint(
+            String(
+                localized: "\(number) places"
+            )
+        )
     }
 }

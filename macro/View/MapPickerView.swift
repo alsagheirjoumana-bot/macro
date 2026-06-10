@@ -215,7 +215,7 @@ struct MapPickerView: View {
         case .restaurant, .foodMarket:
             return .restaurant
         case .store:
-            return .shopping
+            return .shop
         default:
             return .other
         }

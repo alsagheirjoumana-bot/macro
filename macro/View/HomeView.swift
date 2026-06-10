@@ -109,7 +109,7 @@ struct HomeView: View {
                 
                 Spacer()
                 
-                Image(systemName: "chevron.right")
+                Image(systemName: "chevron.forward")
                     .font(.caption)
                     .foregroundColor(Color("AppBrown").opacity(0.7))
             }
@@ -155,11 +155,11 @@ struct HomeView: View {
                 
                 CategoryButton(
                     emoji: "🛍️",
-                    number: count(for: .shopping),
+                    number: count(for: .shop),
                     title: String(localized: "Shops"),
-                    isSelected: selectedCategory == .shopping
+                    isSelected: selectedCategory == .shop
                 ) {
-                    selectedCategory = selectedCategory == .shopping ? nil : .shopping
+                    selectedCategory = selectedCategory == .shop ? nil : .shop
                 }
                 
                 CategoryButton(
@@ -268,7 +268,19 @@ private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
     @State private var shouldNavigate = false
     @State private var showDeleteAlert = false
 
-    private let maxSwipe: CGFloat = -140
+    @Environment(\.layoutDirection) private var layoutDirection
+    
+    private var isRTL: Bool {
+        layoutDirection == .rightToLeft
+    }
+
+    private var openOffset: CGFloat {
+        isRTL ? 140 : -140
+    }
+
+    private var closeSwipe: Bool {
+        isRTL ? false : true
+    }
 
     init(
         @ViewBuilder destination: () -> Destination,
@@ -282,50 +294,45 @@ private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
 
     var body: some View {
 
-        ZStack(alignment: .trailing) {
+        ZStack(alignment: isRTL ? .leading : .trailing) {
 
-            //DELETE BUTTON
             Button {
                 showDeleteAlert = true
             } label: {
-
-                HStack(spacing: 8) {
-
-                    Image(systemName: "trash.fill")
-                        .font(.system(size: 14, weight: .semibold))
-
-                    Text("Delete")
-                        .font(.system(size: 14, weight: .semibold))
-                }
-                .foregroundColor(.white)
-                .padding(.horizontal, 16 + abs(offset * 0.18))
-                .padding(.vertical, 10)
-                .background(
-                    ZStack {
-                        Color.red.opacity(0.95)
-
-                        // subtle glass feel
-                        BlurView(style: .systemUltraThinMaterialDark)
-                            .opacity(0.25)
+                Image(systemName: "trash.fill")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 54, height: 54)
+                    .background(.red)
+                    .clipShape(Circle())
+                    .overlay {
+                        Circle()
+                            .stroke(.white.opacity(0.15), lineWidth: 1)
                     }
-                )
-                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
-                .scaleEffect(offset == 0 ? 0.85 : 1)
-                .opacity(offset == 0 ? 0 : 1)
-                .animation(.spring(response: 0.35, dampingFraction: 0.85), value: offset)
+                    .shadow(
+                        color: .black.opacity(0.12),
+                        radius: 12,
+                        x: 0,
+                        y: 6
+                    )
+                    .scaleEffect(offset == 0 ? 0.85 : 1)
+                    .opacity(offset == 0 ? 0 : 1)
+                    .animation(.spring(response: 0.35, dampingFraction: 0.85), value: offset)
             }
-            .padding(.trailing, 16)
+            .fixedSize()
+            .buttonStyle(.plain)
+            .padding(.leading, isRTL ? 16 : 0)
+            .padding(.trailing, isRTL ? 0 : 16)
             .accessibilityLabel("Delete place")
             .accessibilityHint("Deletes this saved place")
 
             label
+                .environment(\.layoutDirection, layoutDirection)
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
                 .contentShape(Rectangle())
                 .offset(x: offset)
                 .onTapGesture {
-
                     if offset == 0 {
                         shouldNavigate = true
                     } else {
@@ -343,24 +350,39 @@ private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
 
                             guard abs(dx) > abs(dy) else { return }
 
-                            withAnimation(.spring(response: 0.35,
-                                                  dampingFraction: 0.85)) {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
 
-                                // Close if already open
                                 if offset != 0 {
-                                    if dx > 20 {
-                                        offset = 0
+                                    if isRTL {
+                                        if dx < -20 {
+                                            offset = 0
+                                        }
+                                    } else {
+                                        if dx > 20 {
+                                            offset = 0
+                                        }
                                     }
                                     return
                                 }
 
-                                // Open
-                                if dx < -80 {
-                                    offset = maxSwipe
+                                if isRTL {
+                                    if dx > 80 {
+                                        offset = openOffset
 
-                                    if dx < -130 {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                            showDeleteAlert = true
+                                        if dx > 130 {
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                showDeleteAlert = true
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if dx < -80 {
+                                        offset = openOffset
+
+                                        if dx < -130 {
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                showDeleteAlert = true
+                                            }
                                         }
                                     }
                                 }
@@ -377,7 +399,8 @@ private struct SwipeToDeleteCard<Destination: View, Label: View>: View {
                     .hidden()
                 )
         }
-
+        .environment(\.layoutDirection, .leftToRight)
+        .frame(maxWidth: .infinity)
         .alert("Delete Place?", isPresented: $showDeleteAlert) {
 
             Button("Delete", role: .destructive) {
@@ -432,7 +455,7 @@ private struct SavedPlaceCard: View {
                         
                         Text(place.category.emoji)
                         
-                        Text(place.category.rawValue)
+                        Text(String(localized: String.LocalizationValue(place.category.rawValue)))
                             .font(.subheadline)
                             .foregroundColor(Color("AppBrown"))
                     }
@@ -514,7 +537,7 @@ private struct SavedPlaceCard: View {
         )
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
-            "\(place.name). Category \(place.category.rawValue). \(place.isVisited ? "Visited" : "Want to visit")."
+            "\(place.name). Category \(String(localized: String.LocalizationValue(place.category.rawValue))). \(place.isVisited ? String(localized: "Visited") : String(localized: "Want to visit"))."
         )
         .accessibilityHint("Double tap to view place details.")
         .accessibilityAddTraits(.isButton)
@@ -598,7 +621,7 @@ struct PlaceDetailView: View {
                     
                 } label: {
                     HStack(spacing: 5) {
-                        Image(systemName: "arrow.left")
+                        Image(systemName: "arrow.backward")
                         Text("Back")
                     }
                     .foregroundColor(.black)
@@ -822,10 +845,19 @@ struct PlaceDetailView: View {
             
             HStack(spacing: 10) {
                 
-                Picker("Category", selection: isEditing ? $editedCategoryRaw : .constant(place.categoryRaw)) {
+                Picker(String(localized: "Category"), selection: isEditing ? $editedCategoryRaw : .constant(place.categoryRaw)) {
                     ForEach(PlaceCategory.allCases) { category in
-                        Text("\(category.emoji) \(category.rawValue)")
-                            .tag(category.rawValue)
+
+                        let name = String(
+                            localized: String.LocalizationValue(category.rawValue)
+                        )
+
+                        Text(
+                            Locale.current.language.languageCode?.identifier == "ar"
+                            ? "\(name) \(category.emoji)"
+                            : "\(category.emoji) \(name)"
+                        )
+                        .tag(category.rawValue)
                     }
                 }
                 .pickerStyle(.menu)
