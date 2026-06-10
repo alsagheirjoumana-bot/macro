@@ -127,7 +127,7 @@ struct HomeView: View {
         
         VStack(alignment: .leading, spacing: 14) {
             
-            Text("Categories")
+            Text(String(localized: "Categories"))
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundColor(Color("AppBrown"))
@@ -138,7 +138,7 @@ struct HomeView: View {
                 CategoryButton(
                     emoji: "☕️",
                     number: count(for: .cafe),
-                    title: "Cafes",
+                    title: String(localized: "Cafes"),
                     isSelected: selectedCategory == .cafe
                 ) {
                     selectedCategory = selectedCategory == .cafe ? nil : .cafe
@@ -147,7 +147,7 @@ struct HomeView: View {
                 CategoryButton(
                     emoji: "🍽️",
                     number: count(for: .restaurant),
-                    title: "Restaurants",
+                    title: String(localized: "Restaurants"),
                     isSelected: selectedCategory == .restaurant
                 ) {
                     selectedCategory = selectedCategory == .restaurant ? nil : .restaurant
@@ -156,7 +156,7 @@ struct HomeView: View {
                 CategoryButton(
                     emoji: "🛍️",
                     number: count(for: .shopping),
-                    title: "Shops",
+                    title: String(localized: "Shops"),
                     isSelected: selectedCategory == .shopping
                 ) {
                     selectedCategory = selectedCategory == .shopping ? nil : .shopping
@@ -165,7 +165,7 @@ struct HomeView: View {
                 CategoryButton(
                     emoji: "+",
                     number: count(for: .other),
-                    title: "Others",
+                    title: String(localized: "Others"),
                     isSelected: selectedCategory == .other
                 ) {
                     selectedCategory = selectedCategory == .other ? nil : .other

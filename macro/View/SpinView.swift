@@ -54,7 +54,7 @@ struct SpinView: View {
                         Button {
                             spinWheel()
                         } label: {
-                            Text("SPIN")
+                            Text(String(localized: "SPIN"))
                                 .font(.headline)
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)
@@ -92,17 +92,40 @@ struct SpinView: View {
             
             HStack(spacing: 10) {
                 
-                categoryChip("All", emoji: "⭐️", category: nil)
-                categoryChip("Cafes", emoji: "☕️", category: .cafe)
-                categoryChip("Food", emoji: "🍽️", category: .restaurant)
-                categoryChip("Shops", emoji: "🛍️", category: .shopping)
-                categoryChip("Other", emoji: "+", category: .other)
+                categoryChip(
+                    String(localized: "All"),
+                    emoji: "⭐️",
+                    category: nil
+                )
+                
+                categoryChip(
+                    String(localized: "Cafes"),
+                    emoji: "☕️",
+                    category: .cafe
+                )
+                
+                categoryChip(
+                    String(localized: "Food"),
+                    emoji: "🍽️",
+                    category: .restaurant
+                )
+                
+                categoryChip(
+                    String(localized: "Shops"),
+                    emoji: "🛍️",
+                    category: .shopping
+                )
+                
+                categoryChip(
+                    String(localized: "Other"),
+                    emoji: "+",
+                    category: .other
+                )
             }
             .padding(.leading, 4)
             .padding(.trailing, 24)
         }
     }
-    
     private func categoryChip(
         _ title: String,
         emoji: String,
@@ -269,14 +292,17 @@ struct SpinView: View {
             Button {
                 openDirections(place)
             } label: {
-                Label("Open in Maps", systemImage: "location.fill")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 10)
-                    .background(Color("AppBrown"))
-                    .clipShape(Capsule())
+                Label(
+                    String(localized: "Open in Maps"),
+                    systemImage: "location.fill"
+                )
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+                .padding(.horizontal, 18)
+                .padding(.vertical, 10)
+                .background(Color("AppBrown"))
+                .clipShape(Capsule())
             }
         }
         .frame(maxWidth: .infinity)

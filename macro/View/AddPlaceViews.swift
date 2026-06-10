@@ -96,34 +96,34 @@ struct AddPlaceView: View {
 
     // MARK: - Tab Bar
 
-var tabBar: some View {
+    var tabBar: some View {
 
-    HStack(spacing: 10) {
+        HStack(spacing: 10) {
 
-        tabButton(
-            "Manual Entry",
-            image: "pincel",
-            for: .manual
+            tabButton(
+                String(localized: "Manual Entry"),
+                image: "pincel",
+                for: .manual
+            )
+
+            tabButton(
+                String(localized: "From Screenshot"),
+                image: "camera",
+                for: .screenshot
+            )
+        }
+        .padding(6)
+        .background(Color.white.opacity(0.95))
+        .clipShape(RoundedRectangle(cornerRadius: 22))
+        .shadow(
+            color: .black.opacity(0.05),
+            radius: 10,
+            x: 0,
+            y: 5
         )
-
-        tabButton(
-            "From Screenshot",
-            image: "camera",
-            for: .screenshot
-        )
+        .padding(.horizontal, 22)
+        .padding(.bottom, 16)
     }
-    .padding(6)
-    .background(Color.white.opacity(0.95))
-    .clipShape(RoundedRectangle(cornerRadius: 22))
-    .shadow(
-        color: .black.opacity(0.05),
-        radius: 10,
-        x: 0,
-        y: 5
-    )
-    .padding(.horizontal, 22)
-    .padding(.bottom, 16)
-}
     // MARK: - Tab Button
 
     @ViewBuilder

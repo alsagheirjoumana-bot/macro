@@ -10,6 +10,7 @@ struct ManualEntryView: View {
     
     @State private var searchTask: Task<Void, Never>?
     @State private var showMapPicker = false
+    
     var body: some View {
         
         ScrollView {
@@ -34,7 +35,6 @@ struct ManualEntryView: View {
             }
             .padding()
         }
-    
     }
     
     private var placeNameField: some View {
@@ -48,9 +48,19 @@ struct ManualEntryView: View {
             Button {
                 showMapPicker = true
             } label: {
+                
                 HStack {
-                    Text(viewModel.name.isEmpty ? "Choose place from map..." : viewModel.name)
-                        .foregroundColor(viewModel.name.isEmpty ? .secondary : .primary)
+                    
+                    Text(
+                        viewModel.name.isEmpty
+                        ? String(localized: "Choose place from map...")
+                        : viewModel.name
+                    )
+                    .foregroundColor(
+                        viewModel.name.isEmpty
+                        ? .secondary
+                        : .primary
+                    )
 
                     Spacer()
 
@@ -63,20 +73,19 @@ struct ManualEntryView: View {
             }
             .buttonStyle(.plain)
             .sheet(isPresented: $showMapPicker) {
+                
                 MapPickerView { selectedPlace in
                     fillFromMapPlace(selectedPlace)
                     showMapPicker = false
                 }
             }
-            
-          
         }
     }
     
     private func formField(
-        _ label: String,
+        _ label: LocalizedStringKey,
         text: Binding<String>,
-        placeholder: String
+        placeholder: LocalizedStringKey
     ) -> some View {
         
         VStack(alignment: .leading, spacing: 4) {
@@ -111,16 +120,20 @@ struct ManualEntryView: View {
     private var saveButton: some View {
         
         Button {
+            
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
             
             viewModel.save(context: modelContext)
+            
             DispatchQueue.main.asyncAfter(
                 deadline: .now() + 0.5
             ) {
                 WidgetCenter.shared.reloadAllTimelines()
-              }
+            }
+            
             dismiss()
+            
         } label: {
             
             Label("Save", systemImage: "square.and.arrow.down")
@@ -136,7 +149,9 @@ struct ManualEntryView: View {
         }
         .disabled(!viewModel.canSave)
     }
+    
     private func fillFromMapPlace(_ place: MapPlace) {
+        
         viewModel.name = place.name
         viewModel.neighborhood = place.address
         viewModel.notes = place.note
@@ -145,6 +160,4 @@ struct ManualEntryView: View {
         viewModel.address = place.address
         viewModel.selectedCategory = place.category
     }
-    
-   
 }

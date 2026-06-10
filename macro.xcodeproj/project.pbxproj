@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0A2AF8B2FD19C1000DCCACB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0A2AF892FD19C1000DCCACB /* Localizable.strings */; };
+		C0A2AF8D2FD19F3800DCCACB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0A2AF892FD19C1000DCCACB /* Localizable.strings */; };
 		CB71EF892FCF1A7700D29D6A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB71EF882FCF1A7700D29D6A /* WidgetKit.framework */; };
 		CB71EF8B2FCF1A7700D29D6A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB71EF8A2FCF1A7700D29D6A /* SwiftUI.framework */; };
 		CB71EF9A2FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CB71EF862FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		84816A6C2FB2054000F118EC /* macro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0A2AF8A2FD19C1000DCCACB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C0A2AF8C2FD19C1600DCCACB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB71EF862FCF1A7700D29D6A /* NearbyPlaceWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NearbyPlaceWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB71EF882FCF1A7700D29D6A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		CB71EF8A2FCF1A7700D29D6A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -111,6 +115,7 @@
 		84816A632FB2054000F118EC = {
 			isa = PBXGroup;
 			children = (
+				C0A2AF892FD19C1000DCCACB /* Localizable.strings */,
 				CB71EFD92FCF1C3800D29D6A /* NearbyPlaceWidgetExtension.entitlements */,
 				84816A6E2FB2054000F118EC /* macro */,
 				CB71EF8C2FCF1A7700D29D6A /* NearbyPlaceWidget */,
@@ -210,6 +215,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = 84816A632FB2054000F118EC;
 			minimizedProjectReferenceProxies = 1;
@@ -229,6 +235,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A2AF8D2FD19F3800DCCACB /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A2AF8B2FD19C1000DCCACB /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,6 +273,18 @@
 			targetProxy = CB71EF982FCF1A7700D29D6A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C0A2AF892FD19C1000DCCACB /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0A2AF8A2FD19C1000DCCACB /* en */,
+				C0A2AF8C2FD19C1600DCCACB /* ar */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		84816A752FB2054700F118EC /* Debug */ = {
@@ -396,7 +416,7 @@
 				CODE_SIGN_ENTITLEMENTS = macro/macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QTVLP7L5Z8;
+				DEVELOPMENT_TEAM = 29HB26473H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = macro/Info.plist;
@@ -414,7 +434,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.may.macro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -434,7 +454,7 @@
 				CODE_SIGN_ENTITLEMENTS = macro/macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QTVLP7L5Z8;
+				DEVELOPMENT_TEAM = 29HB26473H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = macro/Info.plist;
@@ -452,7 +472,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.may.macro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -472,7 +492,7 @@
 				CODE_SIGN_ENTITLEMENTS = NearbyPlaceWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QTVLP7L5Z8;
+				DEVELOPMENT_TEAM = 29HB26473H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NearbyPlaceWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NearbyPlaceWidget;
@@ -483,7 +503,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.may.macro.NearbyPlaceWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro.NearbyPlaceWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -503,7 +523,7 @@
 				CODE_SIGN_ENTITLEMENTS = NearbyPlaceWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QTVLP7L5Z8;
+				DEVELOPMENT_TEAM = 29HB26473H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NearbyPlaceWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NearbyPlaceWidget;
@@ -514,7 +534,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.may.macro.NearbyPlaceWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro.NearbyPlaceWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
