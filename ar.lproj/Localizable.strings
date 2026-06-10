@@ -1,21 +1,14 @@
-/* 
-  Localizable.strings
-  macro
-
-  Created by ghala alismael on 18/12/1447 AH.
-  
-*/
 "Add a Place" = "إضافة مكان";
 "Add a new place" = "إضافة مكان جديد";
 "Save a spot you want to remember" = "احفظ مكان تبي تتذكره";
 
 "Back" = "رجوع";
 
-"From Screenshot" = "من لقطة شاشة";
+"From Screenshot" = "من لقطات الشاشة";
 "Manual Entry" = "إدخال يدوي";
 
 "Upload a screenshot" = "ارفع لقطة شاشة";
-"From Google Maps, Instagram, TikTok or any app" = "من قوقل ماب، إنستقرام، تيك توك،";
+"From Google Maps, Instagram, TikTok or any app" = "من قوقل ماب، إنستقرام، تيك توك";
 "Choose file" = "اختر صورة";
 
 "Extract Text" = "استخراج النص";
@@ -55,27 +48,27 @@
 "Delete" = "حذف";
 "Delete Place" = "حذف المكان";
 
-"Are you sure you want to delete this place? This action cannot be undone." = "متأكد من الحذف المكان؟ لاتستطيع الرجوع بعد الحذف";
+"Are you sure you want to delete this place? This action cannot be undone." = "متأكد من حذف المكان؟ لا تستطيع التراجع بعد الحذف";
 
 "Map" = "الخريطة";
 "Home" = "الرئيسية";
 "Search" = "بحث";
-"Spin" = "اختيار عشوائي";
+"Spin" = "العجلة";
 
 "Search places..." = "ابحث عن مكان...";
 
 "No note added yet." = "ما فيه ملاحظات";
 
-"Visited" = "تمت زيارته";
-"Want to Visit" = "أبغى أزوره";
+"Visited" = "زرته";
+"Want to Visit" = "ما زرته";
 
-"Not visited" = "غير مزور";
+"Not visited" = "ما زرته";
 
 "Edit" = "تعديل";
 
 "Today's Pick" = "اختيار اليوم";
 
-"No places here yet" = "ما فيه أماكن هنا";
+"No places here yet" = "لايوجد أماكن";
 "Save places in this category first, then come back to spin." = "احفظ أماكن بهذا التصنيف أول وبعدها ارجع للاختيار";
 
 "Let the wheel choose your next destination" = "خل العجلة تختار وجهتك الجاية";
@@ -83,10 +76,21 @@
 "Saved on %@" = "تم الحفظ بتاريخ %@";
 
 "Write your note here..." = "اكتب ملاحظتك هنا...";
-"Neighborhood" = "الحي";
+
 "Category" = "التصنيف";
-"From Screenshot" = "من لقطة شاشة";
-"Manual Entry" = "إدخال يدوي";
+
 "Start typing a place name..." = "ابدأ بكتابة اسم المكان...";
+
 "What caught your eye? What to try?" = "وش شد انتباهك؟ وش ودك تجربه؟";
-"Notes" = "ملاحظات";
+
+"e.g. Al Olaya, Riyadh" = "مثال: العليا، الرياض";
+
+"Choose place from map..." = "اختر مكان من الخريطة...";
+
+"Other" = "أخرى";
+"Food" = "مطاعم";
+"All" = "الكل";
+
+"Open in Maps" = "افتح بالخريطة";
+
+"SPIN" = "ابدأ";
