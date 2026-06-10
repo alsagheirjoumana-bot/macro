@@ -20,7 +20,7 @@ func loadPlaces() -> [WidgetPlace] {
         ])
 
         guard let appGroupURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.reemaaa.macro"
+            forSecurityApplicationGroupIdentifier: "group.com.may.macro"
         ) else {
             print("App Group not found")
             return []
