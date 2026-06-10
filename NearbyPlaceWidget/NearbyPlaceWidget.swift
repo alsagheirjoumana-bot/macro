@@ -21,7 +21,7 @@ func loadPlaces() -> [WidgetPlace] {
 
         let storeURL = FileManager.default
             .containerURL(
-                forSecurityApplicationGroupIdentifier: "group.com.may.macro"
+                forSecurityApplicationGroupIdentifier: "group.com.reemaaa.macro"
             )!
             .appendingPathComponent("Macro.sqlite")
 

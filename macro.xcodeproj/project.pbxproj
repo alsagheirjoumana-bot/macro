@@ -416,7 +416,7 @@
 				CODE_SIGN_ENTITLEMENTS = macro/macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 29HB26473H;
+				DEVELOPMENT_TEAM = 739P7W84X8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = macro/Info.plist;
@@ -433,7 +433,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reemaaa.macro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -453,7 +453,7 @@
 				CODE_SIGN_ENTITLEMENTS = macro/macro.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 29HB26473H;
+				DEVELOPMENT_TEAM = 739P7W84X8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = macro/Info.plist;
@@ -470,7 +470,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reemaaa.macro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -490,7 +490,7 @@
 				CODE_SIGN_ENTITLEMENTS = NearbyPlaceWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 29HB26473H;
+				DEVELOPMENT_TEAM = 739P7W84X8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NearbyPlaceWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NearbyPlaceWidget;
@@ -501,7 +501,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro.NearbyPlaceWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reemaaa.macro.NearbyPlaceWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -521,7 +521,7 @@
 				CODE_SIGN_ENTITLEMENTS = NearbyPlaceWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 29HB26473H;
+				DEVELOPMENT_TEAM = 739P7W84X8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NearbyPlaceWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NearbyPlaceWidget;
@@ -532,7 +532,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joumanaa.macro.NearbyPlaceWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reemaaa.macro.NearbyPlaceWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
