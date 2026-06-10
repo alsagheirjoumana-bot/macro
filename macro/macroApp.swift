@@ -15,8 +15,11 @@ struct macroApp: App {
         let storeURL = FileManager.default
             .containerURL(
                 forSecurityApplicationGroupIdentifier: appGroupID
-            )!
+            )?
             .appendingPathComponent("Macro.sqlite")
+            ?? URL.applicationSupportDirectory
+             
+        
 
         let configuration = ModelConfiguration(
             schema: schema,
