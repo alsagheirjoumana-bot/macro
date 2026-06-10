@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings
+  macro
+
+  Created by ghala alismael on 18/12/1447 AH.
+  
+*/
+"Add a Place" = "إضافة مكان";
+"Add a new place" = "إضافة مكان جديد";
+"Save a spot you want to remember" = "احفظ مكان تبي تتذكره";
+
+"Back" = "رجوع";
+
+"From Screenshot" = "من لقطة شاشة";
+"Manual Entry" = "إدخال يدوي";
+
+"Upload a screenshot" = "ارفع لقطة شاشة";
+"From Google Maps, Instagram, TikTok or any app" = "من قوقل ماب، إنستقرام، تيك توك،";
+"Choose file" = "اختر صورة";
+
+"Extract Text" = "استخراج النص";
+"Extracting…" = "جاري الاستخراج...";
+
+"Review & edit" = "مراجعة وتعديل";
+
+"Place Name *" = "اسم المكان *";
+"Place Name" = "اسم المكان";
+"Place name" = "اسم المكان";
+
+"Neighborhood" = "الحي";
+"Notes" = "ملاحظات";
+
+"Already visited?" = "زرته من قبل؟";
+"Mark this place as visited." = "حدد هذا المكان كمكان تمت زيارته";
+
+"Save place" = "حفظ المكان";
+"Save" = "حفظ";
+
+"Your Places" = "أماكنك";
+"Discover, remember, revisit" = "اكتشف، تذكر، وارجع لها";
+
+"Categories" = "التصنيفات";
+
+"Restaurants" = "مطاعم";
+"Cafes" = "كافيهات";
+"Shops" = "متاجر";
+"Others" = "أخرى";
+
+"Get Started" = "ابدأ";
+"Saved Places" = "الأماكن المحفوظة";
+
+"No places saved yet" = "لا يوجد أماكن محفوظة";
+"Tap the + to save places you want to visit later." = "اضغط + لحفظ الأماكن اللي تبي تزورها لاحقًا";
+
+"Delete" = "حذف";
+"Delete Place" = "حذف المكان";
+
+"Are you sure you want to delete this place? This action cannot be undone." = "متأكد من الحذف المكان؟ لاتستطيع الرجوع بعد الحذف";
+
+"Map" = "الخريطة";
+"Home" = "الرئيسية";
+"Search" = "بحث";
+"Spin" = "اختيار عشوائي";
+
+"Search places..." = "ابحث عن مكان...";
+
+"No note added yet." = "ما فيه ملاحظات";
+
+"Visited" = "تمت زيارته";
+"Want to Visit" = "أبغى أزوره";
+
+"Not visited" = "غير مزور";
+
+"Edit" = "تعديل";
+
+"Today's Pick" = "اختيار اليوم";
+
+"No places here yet" = "ما فيه أماكن هنا";
+"Save places in this category first, then come back to spin." = "احفظ أماكن بهذا التصنيف أول وبعدها ارجع للاختيار";
+
+"Let the wheel choose your next destination" = "خل العجلة تختار وجهتك الجاية";
+
+"Saved on %@" = "تم الحفظ بتاريخ %@";
+
+"Write your note here..." = "اكتب ملاحظتك هنا...";
+"Neighborhood" = "الحي";
+"Category" = "التصنيف";
+"From Screenshot" = "من لقطة شاشة";
+"Manual Entry" = "إدخال يدوي";
+"Start typing a place name..." = "ابدأ بكتابة اسم المكان...";
+"What caught your eye? What to try?" = "وش شد انتباهك؟ وش ودك تجربه؟";
+"Notes" = "ملاحظات";
