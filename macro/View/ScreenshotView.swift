@@ -44,7 +44,7 @@ struct ScreenshotView: View {
                 addVM.address = selectedPlace.address
                 addVM.selectedCategory = selectedPlace.category
 
-                didChoosePlaceFromMap = true
+          
                 showMapPicker = false
             }
         }

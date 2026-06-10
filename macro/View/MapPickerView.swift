@@ -10,13 +10,14 @@ import CoreLocation
 
 struct MapPickerView: View {
     
+    var initialSearchText: String = ""
     var onPick: (MapPlace) -> Void
     
     @Environment(\.dismiss) private var dismiss
     @State private var searchTask: Task<Void, Never>?
     @StateObject private var locationManager = LocationManager()
     
-    @State private var searchText = ""
+    @State private var searchText: String
     @State private var searchResults: [MapPlace] = []
     @State private var cameraPosition: MapCameraPosition = .userLocation(
         fallback: .region(
@@ -32,6 +33,15 @@ struct MapPickerView: View {
             )
         )
     )
+    
+    init(
+        initialSearchText: String = "",
+        onPick: @escaping (MapPlace) -> Void
+    ) {
+        self.initialSearchText = initialSearchText
+        self.onPick = onPick
+        _searchText = State(initialValue: initialSearchText)
+    }
     
     var userLocation: CLLocation {
         CLLocation(
@@ -69,6 +79,10 @@ struct MapPickerView: View {
             .ignoresSafeArea()
             .onAppear {
                 locationManager.requestPermissions()
+                
+                if !initialSearchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    searchNearbyPlaces()
+                }
             }
             
             VStack(spacing: 10) {

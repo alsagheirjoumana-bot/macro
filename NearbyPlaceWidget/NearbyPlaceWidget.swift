@@ -19,11 +19,14 @@ func loadPlaces() -> [WidgetPlace] {
             SavedPlace.self
         ])
 
-        let storeURL = FileManager.default
-            .containerURL(
-                forSecurityApplicationGroupIdentifier: "group.com.reemaaa.macro"
-            )!
-            .appendingPathComponent("Macro.sqlite")
+        guard let appGroupURL = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: "group.com.reemaaa.macro"
+        ) else {
+            print("App Group not found")
+            return []
+        }
+
+        let storeURL = appGroupURL.appendingPathComponent("Macro.sqlite")
 
         let configuration = ModelConfiguration(
             schema: schema,
