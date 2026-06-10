@@ -1,33 +1,39 @@
-//
-//  OCRViewModel.swift
-//  macro
-//
-//  Created by ghala alismael on 27/11/1447 AH.
-//
-
 import Vision
 import UIKit
+import CoreImage
 
-// Owns all OCR state and Vision framework usage
 @Observable
 final class OCRViewModel {
 
-    var selectedImage: UIImage? = nil { didSet { ocrDidRun = false } }
+    var selectedImage: UIImage? = nil {
+        didSet { ocrDidRun = false }
+    }
+
     var isProcessing: Bool = false
     var ocrDidRun: Bool = false
     var showImagePicker: Bool = false
     var result: OCRResult = .empty
 
     func runOCR() {
-        guard let image = selectedImage,
-              let cgImage = image.cgImage else { return }
+        guard let image = selectedImage else { return }
 
         isProcessing = true
         result = .empty
 
-        let request = VNRecognizeTextRequest { [weak self] req, _ in
-            let lines = (req.results as? [VNRecognizedTextObservation] ?? [])
-                .compactMap { $0.topCandidates(1).first?.string }
+        let processedImage = preprocessImage(image)
+
+        guard let cgImage = processedImage.cgImage else {
+            isProcessing = false
+            return
+        }
+
+        let request = VNRecognizeTextRequest { [weak self] request, error in
+
+            let observations = request.results as? [VNRecognizedTextObservation] ?? []
+
+            let lines = observations.compactMap { observation in
+                observation.topCandidates(3).first?.string
+            }
 
             DispatchQueue.main.async {
                 self?.result = TextExtractor.extract(from: lines)
@@ -35,17 +41,88 @@ final class OCRViewModel {
                 self?.ocrDidRun = true
             }
         }
+
         request.recognitionLevel = .accurate
         request.usesLanguageCorrection = true
+        request.recognitionLanguages = [
+            "en-US",
+            "ar-SA"
+        ]
+        request.minimumTextHeight = 0.015
 
         DispatchQueue.global(qos: .userInitiated).async {
-            try? VNImageRequestHandler(cgImage: cgImage).perform([request])
+            do {
+                try VNImageRequestHandler(
+                    cgImage: cgImage,
+                    orientation: CGImagePropertyOrientation(image.imageOrientation)
+                ).perform([request])
+            } catch {
+                DispatchQueue.main.async {
+                    self.isProcessing = false
+                    self.ocrDidRun = true
+                }
+            }
         }
+    }
+
+    private func preprocessImage(_ image: UIImage) -> UIImage {
+
+        guard let ciImage = CIImage(image: image) else {
+            return image
+        }
+
+        let filter = CIFilter(name: "CIColorControls")
+        filter?.setValue(ciImage, forKey: kCIInputImageKey)
+        filter?.setValue(1.15, forKey: kCIInputContrastKey)
+        filter?.setValue(0.05, forKey: kCIInputBrightnessKey)
+        filter?.setValue(0.0, forKey: kCIInputSaturationKey)
+
+        guard let output = filter?.outputImage else {
+            return image
+        }
+
+        let context = CIContext()
+
+        guard let cgImage = context.createCGImage(output, from: output.extent) else {
+            return image
+        }
+
+        return UIImage(
+            cgImage: cgImage,
+            scale: image.scale,
+            orientation: image.imageOrientation
+        )
     }
 
     func reset() {
         selectedImage = nil
         result = .empty
         ocrDidRun = false
+    }
+}
+
+extension CGImagePropertyOrientation {
+
+    init(_ orientation: UIImage.Orientation) {
+        switch orientation {
+        case .up:
+            self = .up
+        case .down:
+            self = .down
+        case .left:
+            self = .left
+        case .right:
+            self = .right
+        case .upMirrored:
+            self = .upMirrored
+        case .downMirrored:
+            self = .downMirrored
+        case .leftMirrored:
+            self = .leftMirrored
+        case .rightMirrored:
+            self = .rightMirrored
+        @unknown default:
+            self = .up
+        }
     }
 }

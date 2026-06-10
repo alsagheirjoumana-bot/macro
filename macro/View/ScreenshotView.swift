@@ -13,6 +13,8 @@ struct ScreenshotView: View {
     @Bindable var ocrVM: OCRViewModel
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @State private var showMapPicker = false
+    @State private var didChoosePlaceFromMap = false
 
     var body: some View {
         ScrollView {
@@ -33,10 +35,30 @@ struct ScreenshotView: View {
             ImagePicker(selectedImage: $ocrVM.selectedImage)
                 .ignoresSafeArea()
         }
+        .sheet(isPresented: $showMapPicker) {
+            MapPickerView(initialSearchText: addVM.name) { selectedPlace in
+                addVM.name = selectedPlace.name
+                addVM.neighborhood = selectedPlace.address
+                addVM.latitude = selectedPlace.latitude
+                addVM.longitude = selectedPlace.longitude
+                addVM.address = selectedPlace.address
+                addVM.selectedCategory = selectedPlace.category
+
+          
+                showMapPicker = false
+            }
+        }
         .onChange(of: ocrVM.result) { _, result in
             addVM.apply(ocrResult: result)
+            addVM.notes = ""
+
+            let extractedName = addVM.name.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            if !extractedName.isEmpty && !showMapPicker {
+                showMapPicker = true
+            }
         }
-    }
+}
 
     @ViewBuilder
     private var imageZone: some View {
@@ -49,9 +71,14 @@ struct ScreenshotView: View {
                 Button {
                     ocrVM.reset()
                     addVM.reset()
+
+                    didChoosePlaceFromMap = false
+                    showMapPicker = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.title3).foregroundStyle(.white).padding(6)
+                        .font(.title3)
+                        .foregroundStyle(.white)
+                        .padding(6)
                 }
             }
         } else {
@@ -114,7 +141,7 @@ struct ScreenshotView: View {
                 selected: $addVM.selectedCategory
             )
 
-            fieldRow("Place Name *", text: $addVM.name)
+            placeNameMapField
             fieldRow("Neighborhood", text: $addVM.neighborhood)
             VStack(alignment: .leading, spacing: 4) {
                 Text("Notes").font(.subheadline).fontWeight(.medium)
@@ -143,17 +170,28 @@ struct ScreenshotView: View {
             
             saveScreenshotPlace(imageData: imageData)
         } label: {
-            Label("Save place", systemImage: "square.and.arrow.down")
+            Label(
+                addVM.latitude != nil && addVM.longitude != nil
+                ? "Save "
+                : "Save",
+                systemImage: "square.and.arrow.down"
+            )
                 .frame(maxWidth: .infinity).padding()
                 .background(
-                    addVM.canSave
+                    addVM.canSave &&
+                    addVM.latitude != nil &&
+                    addVM.longitude != nil
                     ? Color("AppOrange")
                     : Color("AppGray")
                 )
                 .foregroundStyle(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
         }
-        .disabled(!addVM.canSave)
+        .disabled(
+            !addVM.canSave ||
+            addVM.latitude == nil ||
+            addVM.longitude == nil
+        )
     }
     private func saveScreenshotPlace(imageData: Data?) {
         
@@ -187,6 +225,43 @@ struct ScreenshotView: View {
                 DispatchQueue.main.async {
                     addVM.save(context: modelContext, imageData: imageData)
                     dismiss()
+                }
+            }
+        }
+    }
+    
+    private var placeNameMapField: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Place Name *")
+                .font(.subheadline)
+                .fontWeight(.medium)
+
+            Button {
+                showMapPicker = true
+            } label: {
+                HStack {
+                    Text(addVM.name.isEmpty ? "Choose place from map..." : addVM.name)
+                        .foregroundColor(addVM.name.isEmpty ? .secondary : .primary)
+
+                    Spacer()
+
+                    Image(systemName: "map.fill")
+                        .foregroundColor(Color("AppOrange"))
+                }
+                .padding(10)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+            .buttonStyle(.plain)
+            .sheet(isPresented: $showMapPicker) {
+                MapPickerView(initialSearchText: addVM.name) { selectedPlace in
+                    addVM.name = selectedPlace.name
+                    addVM.neighborhood = selectedPlace.address
+                    addVM.latitude = selectedPlace.latitude
+                    addVM.longitude = selectedPlace.longitude
+                    addVM.address = selectedPlace.address
+                    addVM.selectedCategory = selectedPlace.category
+                    showMapPicker = false
                 }
             }
         }
