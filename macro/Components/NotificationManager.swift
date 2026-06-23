@@ -34,7 +34,7 @@ final class NotificationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func requestLocationPermission() {
-        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
     }
 
     func scheduleTimeReminder() {
